@@ -1,0 +1,57 @@
+*******************************************************************************************************************************
+-- Author: Roberto Meneghelli
+-- Dev Date: 11/02/2020
+-- Description: Exemplo de cursor com PostgreSQL
+*******************************************************************************************************************************
+
+create table tabelaTemp(
+id bigint GENERATED ALWAYS AS IDENTITY,
+cd_permissionaria_projetista bigint,
+cd_responsavel_tecnico bigint
+)
+
+insert into tabelaTemp(cd_permissionaria_projetista,cd_responsavel_tecnico)
+select distinct cd_permissionaria_projetista,cd_responsavel_tecnico from permissionaria_projetista_responsavel_tecnico
+
+select * from tabelaTemp
+
+DO $$
+DECLARE count integer;
+idReg bigint;
+cod_permissionaria_projetista bigint;
+cod_responsavel_tecnico bigint;
+cod_permissionaria bigint;
+cod_projetista bigint;
+linhas bigint;
+total integer;
+BEGIN
+    count := 0;
+	total := (select count(*) from tabelaTemp);
+	idReg:= 1;
+	WHILE (count <= total)
+    LOOP
+	cod_permissionaria_projetista:= 0;
+	cod_responsavel_tecnico:= 0;
+	cod_permissionaria:=0;
+	cod_projetista:=0;
+	cod_permissionaria_projetista := (SELECT cd_permissionaria_projetista from tabelaTemp where id = idReg);
+	cod_responsavel_tecnico := (SELECT cd_responsavel_tecnico from tabelaTemp where id = idReg);
+	cod_permissionaria := (SELECT cd_permissionaria from permissionaria_projetista where cd_permissionaria_projetista = cod_permissionaria_projetista);
+	cod_projetista := (SELECT cd_projetista from permissionaria_projetista where cd_permissionaria_projetista = cod_permissionaria_projetista);
+	if(cod_permissionaria_projetista > 0 AND cod_responsavel_tecnico > 0 AND cod_permissionaria > 0 AND cod_projetista > 0) then
+		update responsavel_tecnico set cd_projetista = cod_projetista where cd_responsavel_tecnico = cod_responsavel_tecnico and cd_projetista is null;
+		GET DIAGNOSTICS linhas:= ROW_COUNT;
+    	RAISE NOTICE'Linhas afetadas: %', linhas;
+	END IF;
+	count := count + 1;
+	idReg:= idReg + 1;
+END LOOP;
+	drop table tabelaTemp;
+END $$;
+
+-- Query de validação
+select * from responsavel_tecnico t join 
+permissionaria_projetista_responsavel_tecnico t1
+on t.cd_responsavel_tecnico = t1.cd_responsavel_tecnico
+where t.cd_projetista is null 
+

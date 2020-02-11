@@ -1,0 +1,56 @@
+*******************************************************************************************************************************
+-- Author: Roberto Meneghelli
+-- Dev Date: 11/02/2020
+-- Description: Exemplo de cursor com PostgreSQL
+*******************************************************************************************************************************
+
+create table tabelaTemp(
+id bigint GENERATED ALWAYS AS IDENTITY,
+cd_permissionaria_executora bigint,
+cd_responsavel_tecnico bigint
+)
+
+insert into tabelaTemp(cd_permissionaria_executora,cd_responsavel_tecnico)
+select distinct cd_permissionaria_executora,cd_responsavel_tecnico from permissionaria_executora_responsavel_tecnico
+
+select * from tabelaTemp
+
+DO $$
+DECLARE count integer;
+idReg bigint;
+cod_permissionaria_executora bigint;
+cod_responsavel_tecnico bigint;
+cod_permissionaria bigint;
+cod_executora bigint;
+linhas bigint;
+total integer;
+BEGIN
+    count := 0;
+	total := (select count(*) from tabelaTemp);
+	idReg:= 1;
+	WHILE (count <= total)
+    LOOP
+	cod_permissionaria_executora:= 0;
+	cod_responsavel_tecnico:= 0;
+	cod_permissionaria:=0;
+	cod_executora:=0;
+	cod_permissionaria_executora := (SELECT cd_permissionaria_executora from tabelaTemp where id = idReg);
+	cod_responsavel_tecnico := (SELECT cd_responsavel_tecnico from tabelaTemp where id = idReg);
+	cod_permissionaria := (SELECT cd_permissionaria from permissionaria_executora where cd_permissionaria_executora = cod_permissionaria_executora);
+	cod_executora := (SELECT cd_executora from permissionaria_executora where cd_permissionaria_executora = cod_permissionaria_executora);
+	if(cod_permissionaria_executora > 0 AND cod_responsavel_tecnico > 0 AND cod_permissionaria > 0 AND cod_executora > 0) then
+		update responsavel_tecnico set cd_executora = cod_executora where cd_responsavel_tecnico = cod_responsavel_tecnico and cd_executora is null;
+		GET DIAGNOSTICS linhas:= ROW_COUNT;
+    	RAISE NOTICE'Linhas afetadas: %', linhas;
+	END IF;
+	count := count + 1;
+	idReg:= idReg + 1;
+END LOOP;
+	drop table tabelaTemp;
+END $$;
+
+-- Query de validação
+select * from responsavel_tecnico t join 
+permissionaria_executora_responsavel_tecnico t1
+on t.cd_responsavel_tecnico = t1.cd_responsavel_tecnico
+where t.cd_executora is null
