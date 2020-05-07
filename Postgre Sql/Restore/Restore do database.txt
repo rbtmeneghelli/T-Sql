@@ -1,0 +1,6 @@
+1 - Acessar a pasta C:\Program Files\PostgreSQL\11\bin
+2 - Abrir o cmd a partir do passo 1 
+3 - Aplicar o comando: psql -U postgres Conins < backup.sql
+4 - Executar
+5 - Verificar se foi tudo OK
+
