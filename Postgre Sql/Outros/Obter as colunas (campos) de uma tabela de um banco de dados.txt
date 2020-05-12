@@ -1,0 +1,14 @@
+SELECT
+  a.*,
+  (CASE (a.atttypmod < 0) WHEN TRUE THEN a.attlen ELSE a.atttypmod - 4 END) AS tamanho,
+  pg_get_expr(d.adbin, d.adrelid) AS padrao,
+  col_description(c.oid, a.attnum) AS comentario
+FROM
+  pg_class c
+  INNER JOIN pg_attribute a ON (c.oid = a.attrelid)
+  INNER JOIN pg_attrdef d ON (c.oid = d.adrelid AND d.adnum = a.attnum)
+WHERE
+  c.relname = 'nome_da_tabela' AND
+  a.attnum > 0
+ORDER BY
+  a.attnum ASC

@@ -1,0 +1,10 @@
+SELECT
+  c.*,
+  obj_description(c.oid, 'pg_class') AS comentario,
+  pg_total_relation_size(c.relname) as tamanho
+FROM
+  pg_class c LEFT JOIN pg_namespace n ON (n.oid = c.relnamespace)
+WHERE
+  c.relkind = 'r' AND nspname = 'public'
+ORDER BY
+  c.relname;
