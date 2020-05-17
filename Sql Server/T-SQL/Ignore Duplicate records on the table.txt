@@ -1,0 +1,2 @@
+ALTER TABLE [TABELA] REBUILD WITH (IGNORE_DUP_KEY = ON) 
+-- Esse comando serve para ele adicionar o primeiro registro e os duplicados a ele simplesmente ignorar.

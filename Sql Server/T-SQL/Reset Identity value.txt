@@ -1,0 +1,6 @@
+DBCC CHECKIDENT ('[tabela]', RESEED, 0).
+ 
+NORESEED
+Specifies that the current identity value should not be changed.+
+RESEED
+Specifies that the current identity value should be changed.
