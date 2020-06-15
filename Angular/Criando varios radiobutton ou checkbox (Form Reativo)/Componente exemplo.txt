@@ -1,0 +1,116 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { Validators, FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { NotificationService } from 'app/shared';
+
+export class InfoModalComponent implements OnInit {
+  favoriteSeason: string;
+  listaComQuebra: string[] = [];
+  listaSemQuebra: string[] = [];
+  listaOcupacaoVia: string[] = [];
+  tituloInfoAdicional: string;
+  blExtensao: boolean;
+  blAltura: boolean;
+  blLargura: boolean;
+  blComprimento: boolean;
+  formulario: FormGroup;
+  selectedTopics: string[] = ['D', 'E']; // Itens que foram salvos pela primeira vez.
+  @Input() tipoGeometria: string;
+
+  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService) {
+    this.formulario = this.formBuilder.group({
+      rdIntervencaoQuebra: [''],
+      rdIntervencaoSemQuebra: [''],
+      optOcupacaoVia: this.formBuilder.array([]),
+      extensao: [''],
+      altura: [''],
+      largura: [''],
+      comprimento: ['']
+    });
+  }
+
+  ngOnInit() {
+    this.tipoGeometria = 'ponto';
+    this.setListaComQuebra();
+    this.setListaSemQuebra();
+    this.setListaOcupacaoVia();
+    this.setInfoAdicional();
+    this.updateForm();
+  }
+
+  updateForm() {
+    // Quando for editar, setar os valores de radio button e checkbox button
+    this.formulario.controls['rdIntervencaoQuebra'].setValue('B');
+  }
+
+  isSelected(topic) {
+    return this.selectedTopics.indexOf(topic) >= 0;
+  }
+
+  onChange(event) {
+    const optOcupacaoVia = (<FormArray>this.formulario.get('optOcupacaoVia')) as FormArray;
+    if (event.checked) {
+      optOcupacaoVia.push(new FormControl(event.source.value));
+    } else {
+      const i = optOcupacaoVia.controls.findIndex(x => x.value === event.source.value);
+      this.selectedTopics = this.selectedTopics.filter(x => x !== event.source.value);
+      optOcupacaoVia.removeAt(i);
+    }
+  }
+
+  setListaComQuebra() {
+    this.listaComQuebra.push('A');
+    this.listaComQuebra.push('B');
+    this.listaComQuebra.push('C');
+  }
+
+  setListaSemQuebra() {
+    this.listaSemQuebra.push('A');
+    this.listaSemQuebra.push('B');
+  }
+
+  setListaOcupacaoVia() {
+    this.listaOcupacaoVia = [];
+    this.listaOcupacaoVia.push('A');
+    this.listaOcupacaoVia.push('B');
+    this.listaOcupacaoVia.push('C');
+    this.listaOcupacaoVia.push('D');
+    this.listaOcupacaoVia.push('E');
+    this.listaOcupacaoVia.push('F');
+  }
+
+  setInfoAdicional() {
+    if (this.tipoGeometria.trim() === 'linha') {
+      this.tituloInfoAdicional = 'Trecho (linha)';
+      this.blExtensao = true;
+      this.blAltura = false;
+      this.blLargura = false;
+      this.blComprimento = false;
+    } else {
+      this.tituloInfoAdicional = 'Caixa (pontual)';
+      this.blExtensao = false;
+      this.blAltura = true;
+      this.blLargura = true;
+      this.blComprimento = true;
+    }
+  }
+
+  salvar() {
+    if (this.selectedTopics.length > 0) {
+      const optOcupacaoVia = (<FormArray>this.formulario.get('optOcupacaoVia')) as FormArray;
+      for (const item of this.selectedTopics) {
+        if (optOcupacaoVia.controls.filter(x => x.value === item).length === 0) {
+          optOcupacaoVia.push(new FormControl(item));
+        }
+      }
+      alert(this.formulario.controls['optOcupacaoVia'].value);
+    } else {
+      alert(this.formulario.controls['optOcupacaoVia'].value);
+    }
+    this.notificationService.enviarNotificacao('Atenção!', 'As configurações foram salvas com sucesso', 'success');
+  }
+
+  cancelar() {
+    this.formulario.reset();
+    // Fechar a modal no final
+  }
+}

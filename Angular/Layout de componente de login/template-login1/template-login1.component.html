@@ -1,0 +1,32 @@
+<div class="login">
+    <div class="login-col-form">
+        <mat-card-title>
+            <span>Entre com seu usuário e senha para acessar a aplicação</span>
+        </mat-card-title>
+
+        <mat-card-content class="login-form">
+            <mat-form-field>
+                <input matInput placeholder="Email">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Senha" [type]="hide ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+
+            <button mat-raised-button>Acessar</button>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <a mat-button routerLink=".">Esqueci minha senha</a>
+        </mat-card-actions>
+    </div>
+
+    <div class="login-col-logo">
+        <img src="../../../assets/content/images/logo.png" alt="Logo">
+    </div>
+</div>

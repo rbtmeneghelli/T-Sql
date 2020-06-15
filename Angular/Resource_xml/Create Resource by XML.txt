@@ -1,0 +1,85 @@
+1 - Criar um arquivo XML padrão PT e EN
+2 - Criar uma model com o nome de propriedade igual dos ID de cada componente da tela
+3 - Criar arquivo JS de tradução
+4 - No document.ready da pagina, fazer a chamada do evento criado no arquivo JS de tradução
+5 - Criado chamada para que seja invocado o metodo de leitura PT ou EN, de acordo com a linguagem escolhida pelo usuario.
+6 - Codigo criado para leitura dos atributos XML
+
+    <WebMethod>
+    Public Shared Function TradutorFiles_Indicator()
+        Dim service As New TradutorFiles
+        Dim objeto As New IndicatorXML
+
+        objeto = service.IndicatorGetXml(AppSession.User.IdUser, AppSession.Culture.ToString().ToUpper())
+
+        Return {objeto, objeto.stLanguage}
+    End Function
+
+     public IndicatorXML IndicatorGetXml(int idUser, string stLanguage)
+        {
+            var XMLLoadfullPath = string.Empty;
+
+            IndicatorXML objeto = new IndicatorXML();
+
+            stLanguage = string.IsNullOrWhiteSpace(stLanguage) ? userLanguageConfig(idUser) : stLanguage;
+
+            if (stLanguage == "PT-BR")
+                XMLLoadfullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.Combine("Xml/Indicator", "XML_PTBR.xml"));
+            else if (stLanguage == "EN-US")
+                XMLLoadfullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.Combine("Xml/Indicator", "XML_ENUS.xml"));
+            
+            XElement xml = XElement.Load(XMLLoadfullPath);
+
+            foreach (XElement x in xml.Elements())
+            {
+                objeto.stLanguage = stLanguage;
+                objeto.btnNovoDashboard = x.Attribute("btnNovoDashboard").Value;
+                objeto.btnGravarDashboard = x.Attribute("btnGravarDashboard").Value;
+                objeto.btnSairDashboard = x.Attribute("btnSairDashboard").Value;
+                objeto.mdNovoDashboard = x.Attribute("mdNovoDashboard").Value;
+                objeto.pNovoDashboard = x.Attribute("pNovoDashboard").Value;
+                objeto.mdConfigIndicador = x.Attribute("mdConfigIndicador").Value;
+                objeto.pills_1 = x.Attribute("pills_1").Value;
+                objeto.pills_2 = x.Attribute("pills_2").Value;
+                objeto.pills_3 = x.Attribute("pills_3").Value;
+                objeto.prbGrafico = x.Attribute("prbGrafico").Value;
+                objeto.prbGrid = x.Attribute("prbGrid").Value;
+                objeto.prbMisto = x.Attribute("prbMisto").Value;
+                objeto.lblNomePainel = x.Attribute("lblNomePainel").Value;
+                objeto.lblGrpIndicador = x.Attribute("lblGrpIndicador").Value;
+                objeto.lblIndicador = x.Attribute("lblIndicador").Value;
+                objeto.tbIndicadorNome = x.Attribute("tbIndicadorNome").Value;
+                objeto.lblNomeCustomizado = x.Attribute("lblNomeCustomizado").Value;
+                objeto.nomeCustomizado = x.Attribute("nomeCustomizado").Value;
+                objeto.nomeHelp = x.Attribute("nomeHelp").Value;
+                objeto.lblTipoGrafico = x.Attribute("lblTipoGrafico").Value;
+                objeto.inputNomePainel = x.Attribute("inputNomePainel").Value;
+                objeto.pnConfigGrafico = x.Attribute("pnConfigGrafico").Value;
+                objeto.livalue = x.Attribute("livalue").Value;
+                objeto.liDrill = x.Attribute("liDrill").Value;
+                objeto.liAcum = x.Attribute("liAcum").Value;
+                objeto.liTable = x.Attribute("liTable").Value;
+                objeto.btnSairTab = x.Attribute("btnSairTab").Value;
+                objeto.btnVoltarTabs = x.Attribute("btnVoltarTabs").Value;
+                objeto.btnContinuarTabs = x.Attribute("btnContinuarTabs").Value;
+                objeto.btnGravar = x.Attribute("btnGravar").Value;
+                objeto.mdConfigIndicadorAlt = x.Attribute("mdConfigIndicadorAlt").Value;
+                objeto.pills_1_alterar = x.Attribute("pills_1_alterar").Value;
+                objeto.pills_2_alterar = x.Attribute("pills_2_alterar").Value;
+                objeto.btnSairTabAlterar = x.Attribute("btnSairTabAlterar").Value;
+                objeto.btnContinuar = x.Attribute("btnContinuar").Value;
+                objeto.btnAlterar = x.Attribute("btnAlterar").Value;
+                objeto.mdDeletePanel = x.Attribute("mdDeletePanel").Value;
+                objeto.pDeletePanel = x.Attribute("pDeletePanel").Value;
+                objeto.btnSairTabDeletar = x.Attribute("btnSairTabDeletar").Value;
+                objeto.btnDeletar = x.Attribute("btnDeletar").Value;
+                objeto.mdDeleteDashboard = x.Attribute("mdDeleteDashboard").Value;
+                objeto.pDeleteDashboard = x.Attribute("pDeleteDashboard").Value;
+                objeto.btnSairTabDeletarDashboard = x.Attribute("btnSairTabDeletarDashboard").Value;
+                objeto.btnDeletarDashboard = x.Attribute("btnDeletarDashboard").Value;
+                objeto.btnVoltar = x.Attribute("btnVoltar").Value;
+            }
+
+            return objeto;
+        }	
+	

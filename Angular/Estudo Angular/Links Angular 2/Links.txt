@@ -1,0 +1,22 @@
+http://michaelbromley.github.io/ngx-pagination/#/basic
+https://stackoverflow.com/questions/42397397/angular-2-filter-ngfor-elements-according-to-life-user-input
+https://material.angular.io/components/categories
+https://decembersoft.com/posts/typescript-vs-csharp-linq/
+https://medium.com/@danilodev.silva/angular-5-eventemitter-aprendendo-a-usar-input-e-output-property-56df9158de6b
+https://stackoverflow.com/questions/42107167/pass-data-from-child-to-parent-component-angular2
+https://www.gurustop.net/blog/2016/05/24/how-to-use-typescript-enum-with-angular2/
+https://atom-morgan.github.io/how-to-mock-an-api-in-angular/
+https://resttesttest.com/ - Simular API
+https://stackoverflow.com/questions/55939830/in-angular-ng-bootstrap-modal-with-template-close-and-dismiss-buttons-not-worki
+https://medium.com/manacespereira/angular-ractiveforms-valida%C3%A7%C3%B5es-customizadas-com-formul%C3%A1rios-reativos-no-angular-6-3a3338f9add9
+https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+https://www.npmjs.com/package/angular-dual-listbox
+-- Utilização da extensão do Tslint
+comando npm run lint - tslint (Mostra todos os warnings)
+-- Montar um pacote para publicação
+comando npm run webpack:prod
+--Configuração do Angular II
+instalar nodejs
+instalar npm install -g typescript
+instalar npm install -g @angular/cli
+ng version ou ng v

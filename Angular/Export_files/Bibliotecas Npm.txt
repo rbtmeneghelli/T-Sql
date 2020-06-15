@@ -1,0 +1,12 @@
+https://docs.sheetjs.com/#sheetjs-js-xlsx
+https://www.npmjs.com/package/xlsx
+https://www.npmjs.com/package/jspdf
+npm i docx && npm i file-saver
+npm i jspdf-autotable
+
+-- Incluir essas bibliotecas em sua NPM
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { saveAs } from 'file-saver';
+import { Document, Paragraph, Packer, TextRun } from "docx";

@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="card card-container">
+        <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <form class="form-signin">
+            <span id="reauth-email" class="reauth-email"></span>
+            <mat-form-field class="example-full-width" hintLabel="Máximo 80 caracteres">
+                <input matInput #txtEmail placeholder="Email" id="txtEmail" maxlength="80">
+                <mat-hint align="end">{{txtEmail.value?.length || 0}}/80</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" hintLabel="Máximo 20 caracteres" style="margin-top: 10px !important;">
+                <input matInput #txtSenha placeholder="Senha" id="txtSenha" type="password" maxlength="20">
+                <mat-hint align="end">{{txtSenha.value?.length || 0}}/20</mat-hint>
+            </mat-form-field>
+            <div id="remember" class="checkbox" style="margin-top: 10px !important;">
+                <label>
+                    <mat-checkbox>Lembrar minha Senha</mat-checkbox>
+                </label>
+            </div>
+            <!-- <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" matTooltip="Logar">Logar</button> -->
+            <button mat-flat-button color="primary" matTooltip="Logar">Logar</button>&nbsp;
+        </form>
+        <a href="#" class="forgot-password">
+            Esqueci minha senha?
+        </a>
+        <a href="#" class="forgot-password">
+            Criar novo usuario
+        </a>
+    </div>
+</div>

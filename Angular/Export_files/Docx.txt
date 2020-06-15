@@ -1,0 +1,36 @@
+-- Ação do botão para exportar para DOCX
+exportDoc() {
+    let column: number = 0;
+    let row: number = 1;
+    
+    const doc = new Document();
+    doc.createParagraph("HistoricoRelatorioGerado").heading1();
+
+    console.log(this.tabela.length);
+
+    const table = doc.createTable(this.tabela.length+1,3);
+    //Colunas da tabela 
+    table.getCell(0,0).addContent(new Paragraph("DataHora"));
+    table.getCell(0,1).addContent(new Paragraph("Usuario"));
+    table.getCell(0,2).addContent(new Paragraph("Arquivo"));
+
+    for(const item of this.tabela)
+    {
+      const dataHora = new Date(item.dataHora).toLocaleDateString();
+      table.getCell(row,column).addContent(new Paragraph(dataHora));
+      column++;
+      table.getCell(row,column).addContent(new Paragraph(item.nomeUsuario));
+      column++;
+      table.getCell(row,column).addContent(new Paragraph(item.nomeRelatorio));
+      row++;
+      column = 0;
+    }
+       
+    const packer = new Packer();
+
+    packer.toBlob(doc).then(blob => {
+      console.log(blob);
+      saveAs(blob, "example.docx");
+      console.log("Document created successfully");
+    });
+  }

@@ -1,0 +1,19 @@
+-- Ação do botão para exportar para PDF
+exportPdf = () => {
+    const doc = new jsPDF('p', 'pt', 'a4', true);
+    let rows = [];
+
+    let columns = [
+      { title: 'DataHora', dataKey: 'DataHora' },
+      { title: 'Usuario', dataKey: 'nomeUsuario' },
+      { title: 'Arquivo', dataKey: 'nomeRelatorio' },
+    ];
+
+    for (let item of this.tabela) {
+      const dataHora = new Date(item.dataHora).toLocaleDateString();
+      rows.push({ DataHora: dataHora, nomeUsuario: item.nomeUsuario, nomeRelatorio: item.nomeRelatorio });
+    }
+    doc.autoTable(columns, rows, {
+    });
+    doc.save('HistoricoRelatorioGerado_' + this.date.toLocaleDateString() + '.pdf');
+  }

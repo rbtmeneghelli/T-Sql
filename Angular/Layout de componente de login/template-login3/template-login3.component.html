@@ -1,0 +1,28 @@
+<div class="login" style="margin-top: 100px !important;">
+    <div>
+        <img src="../../../assets/content/images/logo.png" alt="Logo">
+        <img src="../../../assets/content/images/logo.png" alt="Logo2" class="imgCidade">
+    </div>
+
+    <form [formGroup]="formulario" class="login-form" (ngSubmit)="AcessarSistema()">
+        <mat-form-field class="removeBorderLeft">
+            <input matInput class="removeBorderLeft" value="" placeholder="Digite o seu email ou usuário de login"
+                maxlength="80" #txtEmail id="txtEmail" formControlName="email" autofocus>
+            <mat-hint align="end">{{txtEmail.value?.length || 0}}/80</mat-hint>
+            <mat-error>{{getEmail()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="removeBorderLeft" style="margin-top: 10px !important;">
+            <input matInput class="removeBorderLeft" value="" placeholder="Digite a sua senha de acesso"
+                [type]="hide ? 'password' : 'text'" maxlength="20" #txtSenha id="txtSenha" formControlName="senha"
+                (keyup.enter)="AcessarSistema()">
+            <mat-hint align="end">{{txtSenha.value?.length || 0}}/80</mat-hint>
+            <mat-error>{{getSenha()}}</mat-error>
+        </mat-form-field>
+        <br>
+        <button mat-flat-button type="submit" matTooltip="Acessar" class="btnStyle" (click)="AcessarSistema()"
+            [disabled]="!formulario.valid">Acessar</button>
+        <a class="login-reset-senha">Esqueci minha senha</a>
+        <a class="login-reset-senha">Acesso ao Público</a>
+        <a class="login-versao">Versão {{versao}}</a>
+    </form>
+</div>

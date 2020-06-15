@@ -1,0 +1,13 @@
+npm install firebase @angular/fire --save
+
+publicar projeto octoweb
+
+ng build(pasta dist fica a versao publicada)
+
+ng serve(rodar projeto em localhost)
+
+ng version(ver a versão do projeto)
+
+npm version patch -m "Upgrade to %s for reasons" (aumentar o nivel da versão)
+
+Instalar angular CLI e TypeScript

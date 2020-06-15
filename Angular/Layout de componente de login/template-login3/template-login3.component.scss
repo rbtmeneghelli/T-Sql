@@ -1,0 +1,35 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    img {
+      width: 8em;
+      margin: 30px 0;
+    }
+  
+    &-form {
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      text-align: center;
+    }
+  
+    &-reset-senha {
+      font-size: 12px;
+      margin-top: 8px;
+    }
+  
+    &-versao {
+      font-size: 10px;
+      margin-top: 8px;
+      cursor: default !important;
+    }
+  }
+  
+  .imgCidade {
+    position: fixed !important;
+    top: -2em !important;
+    right: 0.5em !important;
+  }

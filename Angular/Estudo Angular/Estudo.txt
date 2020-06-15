@@ -1,0 +1,145 @@
+Utilizar visual studio code
+-------------------------------------------------
+utilizar o angular cli
+ 
+criar um diretorio na pasta app/Nome do projeto/nome do arquivo.component
+import {component} from '@angular/core';
+@Component({})
+
+no html colocar a tag <meuprimeirocomponent></meuprimeirocomponent>(tem que ser o mesmo nome do seletor)
+
+export class Meu primeirocomponent{}
+
+no app.module, tem que declarar ele nas declarations e importa-la tbm
+
+---------------------------------------------------------------------------
+
+Angular 2 é tudo composto em componente
+
+import { Component } from '@angular/core';
+
+@Component({
+selector: 'meu-primeiro-component',
+template: ' <p> dasds</p>'
+}) - Decorator do Angular
+export class MeuPrimeiroComponent {} - para poder vizualizar no HTML
+class MeuPrimeiroComponent {} - E so exibido internamente
+------------------------------------
+
+Componente do HTML
+<meu-primeiro-component></meu-primeiro-component>
+
+-------------------------------------------
+
+Dentro das declarações do modulo, colocar a classe MeuPrimeiroComponent na declaration do NgModule
+Por ultimo importa-la: import {MeuPrimeiroComponent } from './meu-primeiro/meu-primeiro.component';
+
+---------------------------------------------
+
+Angular CLI para criar o Component (Automatico) - Ja faz tudo que foi feito acima
+ng g c "NomedoComponente"
+-----------------------------------------------
+
+TypeScript (Extensão ts)
+Programa igual javascript
+compilando - tsc main.ts
+
+Javascript:
+var numeros = [1,2,3];
+numeros.map(function(valor){
+return valor * 2;
+});
+
+comandos acme script (es6-features.org)
+let num = 2;
+const PI = 3.14;
+numeros.map(valor => valor * 2);
+
+-------------------------------------------------------
+
+Modulos
+app.Module.ts
+
+export class AppModule {}
+
+cria um component, onde será atualizado o app.module.ts
+
+-------------------------------------------------------
+
+TEMPLATES - Colocar o codigo na view
+
+export class XXComponent implements OnInit {
+//variavel
+nomePortal: string; //ou number ou any(Qualquer igual o var)
+cursos: string[] = ['Java','Ext JS','Angular']; 
+constructor() { this.nomePortal = 'teste'}
+ngOnInit(){
+}
+
+na tela so {{NomeVariavel}}
+diretiva ng-for
+exemplo:
+<ul>
+<li *ngFor="let curso of cursos"></li>
+</ul>
+
+--------------------------------------------------------
+Classe de serviço
+Arquitetura -> Componente -> Serviço -> BackEnd
+
+comando ng g s "diretorio/service"
+
+com o arquivo criado, tem um decoration chamado @Injectable() - Injeção de dependencia
+
+Exemplo:
+getCursos(){
+return ['Java','A','B'];
+}
+
+Classe Component 
+Você vai importar o service!
+Import {CursosService } from './cursos.service';
+var servico = new CursosService();
+no construtor a gente coloca da seguinte forma para injeção de dependecia
+constructor(private cursosService : CursosService)
+
+this.cursos = this.cursosService.getCursos();
+
+Classe Modulo
+Tem que colocar os serviços provedores
+1 - Importa-lo
+2 - Criar uma chave chamada providers: [ CursosService] (Logo abaixo do exports
+
+----------------------------------------------------------------
+
+Ambiente de instalação
+nodejs.org - Pegar a ultima versão
+typescript - abrir o terminal npm install -g typescript (tem que executar no prompt dos)
+angular cli - npm install -g @angular/cli
+verificar se está tudo certo, rodar o comando prompt dos (ng-v)g
+
+---------------------------------------------------------------
+
+Criando um projeto angular 
+1 - Acessar o prompt (Ir ate o caminho e aplicar o comando) - ng new "nomeprojeto"
+2 - nodes_modules e o package consta as bibliotecas do projeto
+
+Publicar projeto angular - comando ng serve
+comando crtl+C para parar o ng serve
+
+--------------------------------------------------------------
+
+instalando bootstrap
+npm install bootstrap@4 --save
+https://loiane.com/2017/08/how-to-add-bootstrap-to-an-angular-cli-project/
+https://stackoverflow.com/questions/37649164/how-to-add-bootstrap-to-an-angular-cli-project
+
+---------------------------------------------------------------
+
+Escutar eventos (Evento Binding)
+
+----------------------------------------
+
+https://stackblitz.com/edit/angular-drag-n-drop-directive
+
+https://medium.com/@tarekabdelkhalek/how-to-create-a-drag-and-drop-file-uploading-in-angular-78d9eba0b854
