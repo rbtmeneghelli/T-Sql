@@ -1,0 +1,19 @@
+DECLARE @beginDate DATE = '20161201'
+DECLARE @endDate DATE = '20161231'  
+ 
+DECLARE @Weekend TABLE
+(
+	Weekend DATE PRIMARY KEY
+	,IsWeekend BIT
+)
+ 
+WHILE @beginDate <= @endDate 
+BEGIN 
+INSERT INTO @Weekend 
+SELECT 
+	@beginDate AS Weekend 
+	,(CASE WHEN DATEPART(WEEKDAY, @beginDate) In (7, 1) THEN 1 ELSE 0 END) AS IsWeekend 
+	SET @beginDate = DateAdd(Day, 1, @beginDate) 
+END
+ 
+SELECT Weekend FROM @Weekend WHERE IsWeekend = 1

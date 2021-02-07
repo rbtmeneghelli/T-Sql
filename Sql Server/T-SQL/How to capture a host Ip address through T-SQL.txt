@@ -1,0 +1,21 @@
+DECLARE @ipaddress varchar(max)
+DECLARE @ipaddressLine varchar(max)
+DECLARE @pos int
+
+SET nocount on
+SET @ipaddress = NULL
+
+Create table #temp_ip (ipLine varchar(200))
+INSERT #temp_ip EXEC master..xp_cmdshell 'ipconfig'
+
+SELECT top 1 @ipaddressLine = ipLine FROM #temp_ip
+WHERE upper (ipLine) like '%IPV4 ADDRESS%' or upper (ipLine) like '%IP ADDRESS%'
+    IF (isnull (@ipaddressLine,'***') != '***')
+      BEGIN
+       SET @pos = CharIndex (':',@ipaddressLine,1);
+       SET @ipaddress = rtrim(ltrim(substring (@ipaddressLine , @pos + 1 ,len (@ipaddressLine) - @pos)))
+      END
+PRINT @ipaddress
+DROP TABLE #temp_ip
+
+SET nocount off
