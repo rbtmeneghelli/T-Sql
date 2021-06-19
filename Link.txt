@@ -1,1 +1,4 @@
 https://www.dbrnd.com/microsoft-sql-server-dba-scripts/
+https://ittutorial.org/sql-server-dba-scripts-all-in-one-useful-ms-sql-dba-database-administration-scripts/
+http://tomaslind.net/t-sql/t-sql-scripts/
+https://github.com/soupowertuning
