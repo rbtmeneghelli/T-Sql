@@ -15,3 +15,6 @@ Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASS
 
 -- Conexão em servidor externo com criptografia não aplicada
 Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASSWORD;
+
+-- Padronização de nomenclatura de banco de dados
+https://gist.github.com/thiamsantos/654ec002f04c86d53611923a8b4c3a65
