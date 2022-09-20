@@ -1,0 +1,15 @@
+Repositorio do projeto >> Repos >> Files
+
+- Acessar o History da Branch master
+- A partir do ultimo commit marcado com a tag da versão do projeto, verificar os commits acima se tem migration ou não.
+- Se tiver migration, gerar o migration na base de dados correspondente ao ambiente.
+- Fazer Pull request da branch
+- Validar o arquivo environment e o environment.prod se está com as configurações corretas.
+- Verificar a pasta dist do front se tem arquivos, se tiver exclui-los
+- Gerar o build a partir do comando ng build --prod (NPM não pode ser)
+- Pegar os arquivos gerados na pasta dist e publica-los a partir do Azure Storage Explorer
+- Ambiente >> Blob Containers >> Web
+- Colocar os arquivos da pasta dist no diretorio mencionado acima
+
+
+Ao terminar todo o build do front quanto do back, marcar o ultimo commit do history do repositorio a nova versão publicada na branch master quanto develop

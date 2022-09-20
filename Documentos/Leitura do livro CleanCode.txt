@@ -1,0 +1,5 @@
+Foi realizado a conclusão da leitura do livro dia 15/04/2022.
+
+Nessa leitura pude revisar e compreender as experiências do autor do livro para que fosse elaborado os principais conceitos de cleancode  que utilizamos no dia a dia para declaração de variaveis, criação de metodos, classes, injeção de dependencia, entre outras coisas. Todos esses conceitos levantados fazem a gente evitar códigos confusos a serem desenvolvidos, mantendo uma boa legibilidade do nosso código para futuras features ou sustentação a ser feita com o tempo.
+
+Resumindo um bom código tem que ser simples e direto, sendo de fácil leitura e entendimento por qualquer outro desenvolvedor.

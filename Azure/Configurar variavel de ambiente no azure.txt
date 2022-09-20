@@ -1,0 +1,6 @@
+- Acessar o recurso do azure que deseja.
+ex: GRDEV-BMGSEG-DEPRECURSAL-01
+- Acessar o aplicativo que deseja consultar.
+ex: FADEVBMGSEGMKTPLACE01
+- Acessar a opção configuração
+- Criar a variavel de ambiente logo abaixo, ou ajusta-la se necessario

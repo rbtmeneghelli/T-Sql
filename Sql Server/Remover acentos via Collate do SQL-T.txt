@@ -1,0 +1,2 @@
+faz a remoçao dos acentos do item da query
+SQL_Latin1_General_Cp1251_CS_AS

@@ -1,0 +1,17 @@
+-- Nome de tabela devem estar no escrito de forma minuscula, no plural e separado por underline.
+
+ex: Users, Posts, Roles
+ex composto: User_Roles
+
+-- Nome de colunas da tabela devem estar no singular e em minusculo
+ex: cpf, name, age
+
+-- Chave estrangeira deve seguir o padrão nome_da_tabela_no_singular_id
+ex: A tabela users tem relacionamento com a tabela roles. a foreign key gerada na tabela users será: role_id
+
+-- Chave primaria deve seguir o padrão de incremento automatico e de tipo numerico chamado id
+
+-- Ter presente as colunas default abaixo nas tabelas que serão criadas.
+--- HoraCriação => Hora em que foi criado o registro (TIMESTAMP)
+--- HoraAtualização => Hora em que foi atualizado o registro (TIMESTAMP)
+--- Status => TIPO BIT, onde 0 significa que foi excluido de forma Logica do sistema. 1 significa que está ativo no sistema.

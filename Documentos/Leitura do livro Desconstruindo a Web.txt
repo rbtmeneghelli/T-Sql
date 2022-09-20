@@ -1,0 +1,10 @@
+Foi realizado a conclusão da leitura do livro dia XX/XX/XXXX
+
+O livro engloba tudo que ocorre por trás de uma simples requisição a um determinado domínio até a sua renderização por parte do navegador e apresentação do resultado ao usuário final.
+
+Com isso pude observar e aprender sobre diversas etapas e processos que são feitos desde a máquina do usuário final, partindo da montagem do pacote, passando por cada etapa da camada ozzy e os processos de handshake para estabelecer conexão entre a máquina cliente e o servidor.
+
+Todo esse passo é feito em que estão de milissegundos até que a nossa requisição web chegar ao nosso servidor web e depois ser direcionada ao servidor de aplicação, onde nossa requisição será processada e retornada uma resposta efetuando o mesmo caminho com uma resposta que será formatada em um pacote HTTP que será traduzido pelo navegador por um processo de renderização do conteúdo HTML, CSS, Java script e etc para objetos visuais na tela do browser do cliente final.
+
+Em conclusão deste livro pude entender que o processo é feito de uma forma tão eficiente e poderosa que em questão de poucos segundos nossas requisições quanto sua respostas são respondidas de uma forma tão rápida e otimizadas pelo navegador o que faz o usuário não perceber a quantidade de processos que estão sendo trabalhados por trás dos panos, desde a sua confirmação para acessar um domínio disponível na Internet.
+

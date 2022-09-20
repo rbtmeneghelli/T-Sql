@@ -1,0 +1,16 @@
+Repositorio do projeto >> Repos >> Files
+
+- Acessar o History da Branch master
+- A partir do ultimo commit marcado com a tag da versão do projeto, verificar os commits acima se tem migration ou não.
+- Se tiver migration, gerar o migration na base de dados correspondente ao ambiente.
+- Fazer Pull request da branch
+- Efetuar o publish a partir do visual studio
+- Configurar o publish para o azure
+-- Azure >> Azure Function App (Windows) >> Opção MKTPLACE
+- Settings:
+-- Configuration >> Release
+-- Target Framework >> NetCore 3.1
+-- Deployment Mode >> Self-Contained
+-- Target Runtime >> Win-x64
+
+Ao terminar todo o build do front quanto do back, marcar o ultimo commit do history do repositorio a nova versão publicada na branch master quanto develop

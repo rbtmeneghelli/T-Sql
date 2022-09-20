@@ -1,0 +1,10 @@
+export function checkLimitValueIS(limiteValorIS: number, tipoPropostaId: number): ValidatorFn {
+  return (control: AbstractControl) => {
+    if(!!control?.value && !!limiteValorIS && !!tipoPropostaId) {
+      if(control?.value > limiteValorIS && (tipoPropostaId == 1 || tipoPropostaId == 2)){
+        return { limitValueIS: true };
+      }
+    }
+    return null;
+  };
+}
