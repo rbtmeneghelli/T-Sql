@@ -1,0 +1,27 @@
+using Microsoft.SqlServer.Server;
+using System.Text.RegularExpressions;
+using System.Data.SqlTypes;
+
+public class RegularExpressions
+{
+[Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+
+public static SqlBoolean RegExMatch(SqlString input, SqlString pattern)
+{
+if (input.IsNull || pattern.IsNull)
+return SqlBoolean.False;
+
+return Regex.IsMatch(input.Value, pattern.Value, RegexOptions.IgnoreCase);
+}
+
+[Microsoft.SqlServer.Server.SqlFunction(IsDeterministic = true, IsPrecise = true)]
+
+public static SqlString RegExReplace(SqlString input, SqlString pattern, SqlString replacement)
+{
+if (input.IsNull || pattern.IsNull || replacement.IsNull)
+return SqlString.Null;
+
+return new SqlString(Regex.Replace(input.Value, pattern.Value, replacement.Value, RegexOptions.IgnoreCase));
+}
+
+}

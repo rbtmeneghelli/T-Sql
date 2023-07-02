@@ -1,0 +1,8 @@
+SELECT
+ltrim(replace(replace(replace(
+dbo.RegExReplace(note_text,'({\\)(.+?)(})|(\\)(.+?)(\b)','')
+,'}','')
+,char(13),'')
+,char(10),'')
+)
+FROM dbo.tbl_note

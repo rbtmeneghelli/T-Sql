@@ -1,0 +1,14 @@
+CREATE FUNCTION RegExMatch( @Input NVARCHAR(512),@Pattern NVARCHAR(127))
+RETURNS BIT
+
+EXTERNAL NAME TextFunctions.RegularExpressions.RegExMatch
+GO
+
+CREATE FUNCTION RegExReplace( @Input NVARCHAR(512)
+,@Pattern NVARCHAR(127)
+,@Replacement NVARCHAR(512)
+)
+RETURNS NVARCHAR(512)
+
+EXTERNAL NAME TextFunctions.RegularExpressions.RegExReplace
+GO
