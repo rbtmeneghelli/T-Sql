@@ -1,0 +1,142 @@
+1. Explique os princípios da orientação a objeto?
+É um paradigma de programação baseado em interações entre unidades de software (objetos), tentando aproximar-se do mundo real.
+
+2. Você conhece a arquitetura em três camadas?
+O modelo de orientação a objeto promoveu a abstração, mudando os conceitos da linguagem estruturada. Com esta mudança de conceito, surgiu a arquitetura em três camadas, onde há a separação entre a camada de apresentação, camada de negócios e camada de dados.
+ 
+3. Você sabe o que são Design Patterns?
+São soluções generalistas para problemas recorrentes durante o desenvolvimento de um software. São modelos de soluções abstratas de alto nível para resolver problemas comunsPadrões de criação: Builder, Prototype, Singleton, Abstract FactoryPadrões estruturais: Adapter, Bridge, Facade, ProxyPadrões comportamentais: Iterator, Command, Observer, Strategy, Visitor
+
+4. Você conhece DDD?
+O Domain Driven Design é uma abordagem de desenvolvimento orientado a domínio, focando no entendimento da regra de negócio. A abstração nos domínios facilita o entendimento da regra de negócio juntamente com a linguagem ubíqua, ou seja, uma linguagem "comum". 
+
+5. Você conhece TDD?
+Criado pelo engenheiro de software Kent Beck, o Test Driven Development (TDD) aborda o desenvolvimento orientado a teste. O TDD é um conceito promovido pelo Extreme Programming. 
+
+6. Já ouviu falar em BDD?
+Criado como uma resposta ao TDD, o Behavior Driven Development (BDD), promove a colaboração entre desenvolvedores, profissionais relacionados ao negócio e o setor de qualidade de software. Criando testes voltados aos cenários do negócio, estreitando a comunicação entre as equipes. 
+
+7. Você conhece SCRUM?
+Foi concebido como um estilo de gerenciamento de projeto em montadoras de automóveis. O SCRUM é um framework que promove uma interação entre a equipe, visando a gestão de projetos e o desenvolvimento ágil. As entregas são dívidas em cíclos (sprints), onde o KanBam e o Gráfico de Burndown são ferramentas utilizadas. 
+
+8. Você conhece ORM?
+O mapeamento de objeto relacional é uma técnica que promove a abstração do banco de dados, onde objetos do banco de dados relacionais (tabelas) são representados por classes e os seus registros por instâncias. A abstração do banco de dados possibilita que a aplicação utilize qualquer banco de dados. 
+Framework ORM:  Entity framework, Nhibernate e o micro ORM Dapper 
+
+9. Você conhece SOA?
+A arquitetura orientada a serviços, envolve a orquestração e disponibilização de serviços por meio de barramento (ESB - Enterprise Service BUS). O apoio desta arquitetura promove a governança que impacta diretamente em pessoas, processos e produtos. 
+
+10. O que é orientação a aspecto?
+É um paradigma de programação que tem como princípio a separação de interesses. Possibilita que todo código secundário seja encapsulado e modularizado, ou seja, o crosscutting (ex: log, cache e segurança).Frameworks: Java - AspectJ, NET - Post Sharp, Mono - Cecil 
+
+11. Qual foi o maior motivador para reescrever o Asp.Net na versão core?
+Entregar uma tecnologia multiplataforma compatível com aplicações em nuvem e containers. 
+
+12. Qual a diferença de acoplamento fraco e um acoplamento forte?
+Acoplamento forte depende de muitas outras classes para fazer o servico e também é mais difícil de manter e ser usada. 
+Acoplamento fraco não depende de muitas classes para fazer o que precisa fazer 
+
+13. Qual a diferença de boxing para unboxing?
+Processo de conversão Boxing e passar um tipo valor para tipo objeto ( object, String ou array) implícito 
+Processo de conversão unboxing passa o tipo objeto para tipo valor. Explícito 
+
+14. Diferença entre um domínio anemico e um domínio rico 
+Domínio  anemico é quando temos uma entidade sem validação, métodos e construtores. 
+Domínio rico e quando temos validação, métodos ou construtores em uma entidade 
+
+15. O que é injeção de dependência?
+E uma técnica de programação usada para tornar uma classe independente de seus dependências.O padrão de injeção de dependência visa remover dependências desnecessárias entre as classes, fazendo que as aplicações tenham um baixo acoplamento e uma alta coesão. Com isso a classe injetada só precisa saber do contrato definido pela interface ou classe abstrata. Tornando as independente dos objetos 
+
+16. Diferença de interface e classe abstrata
+Uma classe abstrata pode conter um código pré definido que pode ou não ser sobrescrito lá na frente.
+Uma interface específica quais os métodos que devem ser implementados por uma classe concreta.
+
+17. Quais os tipos de serviço da injeção de dependência?
+Transient - são criados cada vez que são solicitados.
+Scoped - são criados em cada solicitação (uma vez por solicitaçao do cliente)
+Singleton - são criados uma vez durante a vida útil da aplicação.
+
+18. Quais são os verbos ou métodos do protocolo HTTP?
+Get, Post, Put, Patch, Delete
+Get >> faz uma requisição a um recurso especificado de um endpoint disponibilizado por um erp, webservice ou webapi, retornando um resultado em formato Json ou XML.
+Post >> Envia uma entidade e requisita que o servidor aceita-a como subordinada do recurso identificado a ser processado para que seja inserido.
+Delete >> envia uma entidade e requisita que o servidor aceite-a para que seu recurso seja apagado.
+Put >> Envia uma entidade e requisita que o servidor aceita-a como subordinada do recurso identificado a ser processado para que seja alterado.
+Patch >> Envia uma entidade e requisita que o servidor aceita-a como subordinada do recurso identificado a ser processado para que seja alterado de forma parcial.
+
+19. O que é uma arquitetura monolitica?
+E um sistema único, não dividido, que roda em um único processo, sendo composto por uma aplicação, na qual diferentes componentes estão ligados à um único programa dentro de uma única plataforma.
+
+20. O que é uma arquitetura microservico?
+Consiste em uma coleção de pequenos serviços autônomos distribuídos, onde cada serviço é independente e deve implementar uma única funcionalidade em um contexto limitado
+
+21. O que é o padrão repository?
+Esse padrão separa a lógica de acesso a dados e mapeia essa lógica para entidades na lógica de negócio.A comunicação é feita via interfaces entre as entidades de domínio e a lógica de acesso a dados.
+
+22. quais são os pilares fundamentais da OOP?
+Estado, comportamento, abstração, herança, polimorfismo, encapsulamento
+
+23. o que é SOLID?
+SOLID são princípios que nos ajudam organizar funções e estrutura de dados em classes e como interconecta-las.
+
+24. o que é ETL?
+São ferramentas para extracao/carga de dados de um banco de dados, arquivo ou etc... para outra fonte de dados.
+
+25. O que dizer quando pedirem uma estimativa?
+Posso dar um retorno depois. Dizer isso para analisar riscos de mudanças e impactos que o item irá causar.
+
+26. O que é a LINQ?
+A language integrated query é um poderoso conjunto de tecnologias e recursos para consulta de objetos, banco de dados relacional, XML, entidades e outras fontes de dados a partir da linguagem C#
+
+27. O que é generics no C#?
+Generics apresentam conceito de parâmetros de tipo para .NET que possibilita a criação de classes e métodos que adiam a especificação do tipo que será utilizado
+
+28. Qual a diferença do comando LINQ First vs Single?
+O First retorna o primeiro elemento, independente da qtde de dados.O Single retorna um elemento, desde que seja único na lista. Se houver mais de um elemento ocorrerá erro.
+
+29. Explique sobre EF Core ORM?
+O mapeamento do objeto relacional no NET, permitindo interagir com banco de dados via código sem precisar efetuar consultas SQL.
+
+O entity framework core e uma reformulação da ef 6, tornando o ef multiplataforma, mais leve e extensível. 
+Index do sql e um recurso para ordenar os dados em uma determinada sequência,tornando o resultado da sua consulta mais eficiente. 
+Índice exclusivo impede valores duplicados 
+Índice não exclusivo permite valores duplicados ajudando a melhorar o desempenho das consultas.
+View do sql e uma tabela virtual formada por dados vindos de tabelas relacionadas numa query. 
+Tuplas e uma estrutura de dados com múltiplos elementos de diferentes tipos. 
+Cross cutting são métodos comuns fornecidos por uma camada ou serviço específico usado por todas as camadas ou serviços da aplicação 
+Variável Double tem mais desempenho, decimal tem mais precisão. 
+Os ORM permitem que a interação com os dados armazenados em bancos de dados relacionais sejam trabalhados com objetos fortemente tipados
+A função rxjs map é 70% mais eficiente que o foreach para varrer um array
+FluentApi - são as configurações da classe mapping de uma entidade que será criada a partir do migration
+DataAnnotation - são configurações definidas na própria entidade que será criada a partir do migration
+O net 7 vai ter opção de execução em JIT (Just in time) e também em Aot (ahead of time).
+Quando usamos a compilação JIT (Just in time) nosso App é compilado na hora da execução, já o AOT permite que o mesmo seja compilado antes de ser executado, o que traz um ganho de performance principalmente na primeira execução.
+Os métodos assíncronos tem melhor rendimento, pois eles executam várias solicitações de forma simultânea, sem necessidade de aguardar a finalização de um processo para poder iniciar outro como é feito da forma sincrona
+A serializacao é o processo de converter um objeto em um fluxo de bytes para armazenar o objeto ou transmiti-lo para a memória, banco de dados ou arquivo. O processo contrário e a deserializacao
+Arquitetura de software define o que é o sistema em termos computacionais e o relacionamento entre os componentes
+Padrões de projetoTipo de aplicação TecnologiaPadrão arquitetural
+Redundância de dados no banco de dados deve ser evitada, ou seja, duplicação de dados em tabelas. Evitar a redundância para compartilhamento de dados.
+Aplicação de herança e válido quando temos uma situação de algo que é alguma coisa. Exemplo de classes e superclasses:Cafeteira e um eletrodomésticoCarro e um veículoCachorro e um animalFuncionário e uma pessoa
+Menos acoplamento e mais coesão (isso deve ser feito em POO)
+Lista Ienumerable não permite alteração, somente leitura. Tipo list permite alteração
+Entity framework tem bom desempenho para funcionalidades básicas do sql. ADO NET tem melhor desempenho para funcionalidades mais complexas, tipo relatorio
+O NET upgrade assistant é uma ferramenta que ajuda a atualização do projeto para versão mais recente
+Array tem melhor desempenho de memoria do que lists 
+Tipos de armazenamento no frontend:Sessionstorage, localstorage e indexeddb
+Na opção deployment center criamos um perfil de configuração para podermos publicar o app backend no azure
+O github copilot oferece sugestões de preenchimento automático de um programador (IA) a medida que o código vai sendo criado.
+
+30. O que é a arquitetura BFF (Backend for frontend)?
+
+O Back-end for Front-end é um microsserviço que customiza a entrega de back-end para cada interface ou experiência do usuário.
+
+Essa arquitetura faz que a gente tenha uma API para cada interface do usuario (Mobile, Desktop ou etc...)
+
+E criado um API gateway para cada interface do usuario, onde esse API gateway faz o redirecionamento para o microserviço de destino requisitado pelo usuario.
+
+31. Faça um overview sobre a arquitetura SAGA
+
+A arquitetura SAGA é um orquestrador de eventos que segue em frente, caso o evento anterior tenha sucesso, senão ele pode ser desfeito caso algo no meio do caminho implique em questão de negocio.
+
+32. Faça um overview sobre DEVOPS
+Devops e um conjunto de praticas que tem como objetivo de integrar as equipes de dev e infra em todos os processos de um sistema.

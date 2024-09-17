@@ -1,0 +1,44 @@
+Pacotes NUGET:
+
+FluentMail >> Envio de email
+Hangfire >> Gerenciador de jobs
+NewtonSoft.Json >> Manipulador de dados JSON
+AutoMapper >> Gerenciador de mapeamento de entidades
+Swagger >> Documentação de API
+RabbitMQ >> Serviço de mensageria
+Epplus >> Gerador de arquivos office
+Mailkit >> Envio de email
+NPOI >> Gerador de arquivos office
+Bogus >> Gerador de dados fake para teste de entidades
+Kisslog >> Controle de log com dashboard
+Sharpziplib >> Gerador de arquivo zip pela classe fastzip
+Nlog >> Ferramenta de registro de log de alto desempenho
+PdfflowLib, FastReport NET ou Community, PdfTron, PdfSharp  >> Gerador de arquivo PDF
+SpirePdf, IronPdf e QuestPdf >> Ferramenta para extrair dados de arquivo Pdf
+Serilog >> Gerador de log para varios modelos (Console, File e SQL)
+Redis >> Ferramenta de armazenamento de dados em um banco não relacional
+Dapper >> MICRO ORM, onde é possivel trabalhar em conjunto com EF (Versão melhorada do antigo ADO.NET)
+Elmah.IO >> Gerador de log customizado
+TensorFlow >> Ferramenta de reconhecimento facial
+BenchmarkDotNet >> Ferramenta de avaliação de desempenho de codigo
+DanfePdf >> Ferramenta de terceiros para gerar Danfe, a partir de um XML
+HealthChecks >> Ferramenta de monitoramento da saude da aplicação
+SendGrid >> Ferramenta para cusomização e envio de email
+SignalR >> Ferramenta para criação de chat e envio de notificação
+AspnetcoreRareLimit >> Ferramenta de limitação de request
+NetMonitor >> Ferramenta auxiliar para monitoramento da aplicação
+DataDog >> Ferramenta de monitoramento e analise da aplicação
+Febrabran, Boleto NET, Boleto Simples >> Ferramenta para gerar boleto bancario
+Gerencia Net >> Ferramenta para trabalhar com PIX
+Prestador de serviço TecnoSpeed >> Auxilia para geração de Notas Fiscais
+PagSeguro, Pagar.me, PayPal >> Ferramenta para pagamento
+
+Bibliotecas de Banco de dados:
+Microsoft.entityframeworkcore.sqlserver >> Provedor de conexão do EF core com banco de dados
+Npgsql.entityframeworkcore.postgresql >> Provedor de conexão do EF core com banco de dados
+Pomelo.entityframeworkcore.mysql >> Provedor de conexão do EF core com banco de dados
+
+Bibliotecas de EF Core:
+Microsoft.entityframeworkCore >> Provedor para execução de migrations
+Microsoft.entityframeworkCore.tools >> Provedor para execução de migrations
+Microsoft.entityframeworkCore.design >> Provedor para execução de migrations

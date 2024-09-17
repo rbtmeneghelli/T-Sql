@@ -1,16 +1,19 @@
-Repositorio do projeto >> Repos >> Files
+Passos para publicar uma API no Azure
 
-- Acessar o History da Branch master
-- A partir do ultimo commit marcado com a tag da versão do projeto, verificar os commits acima se tem migration ou não.
-- Se tiver migration, gerar o migration na base de dados correspondente ao ambiente.
-- Fazer Pull request da branch
-- Efetuar o publish a partir do visual studio
-- Configurar o publish para o azure
--- Azure >> Azure Function App (Windows) >> Opção MKTPLACE
-- Settings:
--- Configuration >> Release
--- Target Framework >> NetCore 3.1
--- Deployment Mode >> Self-Contained
--- Target Runtime >> Win-x64
+* Acessar portal do Azure >> Criar Recurso (Caso não tenha >> Opção GRUPO DE RECURSOS)
+* Dentro do grupo de recursos >> Clicar em CRIAR >> Procurar por WEBAPP ou APLICATIVO WEB
 
-Ao terminar todo o build do front quanto do back, marcar o ultimo commit do history do repositorio a nova versão publicada na branch master quanto develop
+>> Na aba básico do WEBAPP ou Aplicativo WEB, efetuar as seguintes configurações:
+* Opção Publicar >> Marcar opção código
+* Opção SO >> Windows
+* Opção Pilha de runtime >> (Depende do framework que a aplicação está utilizando. NET 6,7,8 ou superior)
+
+>> Na aba Implantação do WEBAPP ou Aplicativo WEB, efetuar a seguinte configuração:
+* Opção Autenticação Básica >> Habilitar
+
+>> Após a criação do WEBAPP ou Aplicativo WEB, efetuar o seguinte passo:
+* Baixar o arquivo de perfil de publicação do WEBAPP ou Aplicativo WEB do Azure para poder utilizar no Visual Studio
+* Efetuar a configuração das variáveis de ambiente que serão consumidas pela API
+* Ao efetuar o deploy da API, efetuar a importação do arquivo de publicação baixado do Azure
+* Marcar opção Deployment mode >> Self-contained
+* Concluir o deploy e testar

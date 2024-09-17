@@ -1,0 +1,9 @@
+Pacotes NPM:
+Boostrap >> framework para dev web
+Angular Material >> framework para dev web
+Pdf Viewer >> visualizador de pdf
+Ngx-skeleton-Loader >> Animação de loading para tabelas ou grid
+Ngx-mask >> Mascara para campos de telefone, celular, documentos e etc...
+Ng2-currency-mask >> Mascara para campos de valor monetario
+Chart.js >> Gerador de graficos
+SweetAlert >> Alerta de mensagem

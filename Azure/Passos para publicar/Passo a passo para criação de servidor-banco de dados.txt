@@ -1,0 +1,8 @@
+Passos para criar servidor de banco de dados no Azure
+
+* Acessar portal do Azure >> Criar Recurso (Caso não tenha >> Opção GRUPO DE RECURSOS)
+* Dentro do grupo de recursos >> Clicar em CRIAR >> Procurar por Database ou Banco de dados
+* Configurar os dados basicos de banco
+* Configurar o metodo de autenticação com SQL >> Criar usuário e senha
+* Após a criação do Servidor e do banco de dados, efetuar a configuração do firewall
+* Acessar o Recurso do Servidor do banco de dados, opção Definir firewall do servidor >> Selecionar redes selecionados >> Opção Exceção >> Ativar a opção (Permitir que serviços e recursos do Azure acessem esse servidor)
