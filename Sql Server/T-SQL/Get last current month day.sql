@@ -1,0 +1,1 @@
+SELECT EOMONTH(GETDATE()) as LastCurrentMonthDay

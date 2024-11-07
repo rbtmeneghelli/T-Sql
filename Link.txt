@@ -5,16 +5,16 @@ https://github.com/soupowertuning
 
 exemplos de connectionString:
 --Local com criptografia aplicada
-Data Source=HOSTNAME\SQLEXPRESS;Initial Catalog=DATABASENAME;Integrated Security=true; Column Encryption Setting=enabled
+Data Source=HOSTNAME\SQLEXPRESS;Initial Catalog=DATABASENAME;Integrated Security=true; Column Encryption Setting=enabled;trustservercertificate=true;
 
 --Local com criptografia não aplicada
-Data Source=HOSTNAME\SQLEXPRESS;Initial Catalog=DATABASENAME;Integrated Security=true;
+Data Source=HOSTNAME\SQLEXPRESS;Initial Catalog=DATABASENAME;Integrated Security=true;trustservercertificate=true;
 
 -- Conexão em servidor externo com criptografia aplicada
-Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASSWORD;Column Encryption Setting=enabled
+Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASSWORD;Column Encryption Setting=enabled;trustservercertificate=true;
 
 -- Conexão em servidor externo com criptografia não aplicada
-Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASSWORD;
+Server=SERVERCONNECTION;Database=DATABASENAME;User Id=USERNAME;Password=USERPASSWORD;trustservercertificate=true;
 
 -- Padronização de nomenclatura de banco de dados
 https://gist.github.com/thiamsantos/654ec002f04c86d53611923a8b4c3a65
