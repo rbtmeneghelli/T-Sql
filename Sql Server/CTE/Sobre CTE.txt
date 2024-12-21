@@ -1,0 +1,3 @@
+A ideia dos CTEs ficará clara quando eu mostrar exemplos. Mas, por enquanto, podemos dizer que um CTE, ou expressão de tabela comum, é um conjunto de resultados temporário e nomeado no SQL que permite que você simplifique consultas complexas, tornando-as mais fáceis de ler e manter. 
+
+Os CTEs são comumente usados quando você trabalha com várias subconsultas. Você pode reconhecê-los porque são criados com a palavra-chave WITH eComo mencionei, eles podem ser usados em declarações SELECT INSERT, e . UPDATE DELETE  
