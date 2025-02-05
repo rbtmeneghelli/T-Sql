@@ -21,3 +21,8 @@ https://gist.github.com/thiamsantos/654ec002f04c86d53611923a8b4c3a65
 
 -- Site de connectionstrings
 https://www.connectionstrings.com/
+
+-- Ferramenta para modelagem de banco de dados (MER)
+https://www.dbdesigner.net/
+https://dbdiagram.io/home
+https://drawsql.app/
