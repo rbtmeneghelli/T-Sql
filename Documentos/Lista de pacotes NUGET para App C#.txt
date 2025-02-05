@@ -32,6 +32,7 @@ Febrabran, Boleto NET, Boleto Simples >> Ferramenta para gerar boleto bancario
 Gerencia Net >> Ferramenta para trabalhar com PIX
 Prestador de serviço TecnoSpeed >> Auxilia para geração de Notas Fiscais
 PagSeguro, Pagar.me, PayPal >> Ferramenta para pagamento
+Linq2DB >> ORM responsavel pela interação do banco de dados com os objetos de entidade do NET
 
 Bibliotecas de Banco de dados:
 Microsoft.entityframeworkcore.sqlserver >> Provedor de conexão do EF core com banco de dados
