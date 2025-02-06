@@ -1,5 +1,7 @@
-Pacotes NUGET:
+IDE para desenvolvimento NET:
+Visual Studio, Visual Code, JetBrains Rider
 
+Pacotes NUGET:
 FluentMail >> Envio de email
 Hangfire >> Gerenciador de jobs
 NewtonSoft.Json >> Manipulador de dados JSON
@@ -18,6 +20,7 @@ SpirePdf, IronPdf e QuestPdf >> Ferramenta para extrair dados de arquivo Pdf
 Serilog >> Gerador de log para varios modelos (Console, File e SQL)
 Redis >> Ferramenta de armazenamento de dados em um banco não relacional
 Dapper >> MICRO ORM, onde é possivel trabalhar em conjunto com EF (Versão melhorada do antigo ADO.NET)
+Dapper.Contrib >> E um pacote complementar do Dapper que facilita a utilização de comandos CRUD
 Elmah.IO >> Gerador de log customizado
 TensorFlow >> Ferramenta de reconhecimento facial
 BenchmarkDotNet >> Ferramenta de avaliação de desempenho de codigo
@@ -32,6 +35,9 @@ Febrabran, Boleto NET, Boleto Simples >> Ferramenta para gerar boleto bancario
 Gerencia Net >> Ferramenta para trabalhar com PIX
 Prestador de serviço TecnoSpeed >> Auxilia para geração de Notas Fiscais
 PagSeguro, Pagar.me, PayPal >> Ferramenta para pagamento
+Refit>> Similar ao IHttpClientFactory para consumo de API, porém trabalha com camada de interface
+MassTransit >> E um framework open source para a plataforma .NET que ajuda o desenvolvedor a rotear mensagens para serviços de mensageria como RabbitMQ, Azure Service Bus, SQS e bus de serviço ActiveMQ.
+HybridCache >> E uma biblioteca que faz a junção da funcionalidade IMemoryCache e da IDistributedCache. (A partir do NET 9)
 Linq2DB >> ORM responsavel pela interação do banco de dados com os objetos de entidade do NET
 
 Bibliotecas de Banco de dados:
@@ -43,3 +49,11 @@ Bibliotecas de EF Core:
 Microsoft.entityframeworkCore >> Provedor para execução de migrations
 Microsoft.entityframeworkCore.tools >> Provedor para execução de migrations
 Microsoft.entityframeworkCore.design >> Provedor para execução de migrations
+EFCore.BulkExtensions >> Biblioteca para trabalhar com dados em massa
+Z.EntityFramework.Extensions.EFCore >> Biblioteca para trabalhar com dados em massa
+
+Biblioteca de Gateway para API:
+Ocelot >> Ideal para utilizar com arquitetura de microserviço
+
+Ferramentas para geração de relatório:
+Crystal Report, Fast Report, Report Viewer (Funciona para projetos com tecnologia sem NET CORE) e Report Builder
