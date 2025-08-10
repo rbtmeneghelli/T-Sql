@@ -7,7 +7,7 @@ ChangedAt Datetime,
 IsActive bit)
 
 insert into [Rule] values('Cadastro','ROLE_USER_ADD',getdate(),null,1),
-('EdiÁ„o','ROLE_USER_EDIT',getdate(),null,1),
+('Edi√ß√£o','ROLE_USER_EDIT',getdate(),null,1),
 ('Excluir','ROLE_USER_DEL',getdate(),null,1),
 ('Consultar','ROLE_USER_VIEW',getdate(),null,1)
 
@@ -37,9 +37,10 @@ Id bigint identity(1,1) PRIMARY KEY,
 Description varchar(255),
 CreatedAt Datetime,
 ChangedAt Datetime,
-IsActive bit)
+IsActive bit,
+IsEditable bit DEFAULT 1,)
 
-insert into [Profile] values('Administrator',getdate(),null,1),('User',getdate(),null,1)
+insert into [Profile] values('Administrator',getdate(),null,1),('User',getdate(),null,1, 1)
 
 create table [User](
 Id bigint identity(1,1) PRIMARY KEY,
@@ -51,10 +52,11 @@ CreatedAt Datetime,
 ChangedAt Datetime,
 TwoFactoryAccess bit,
 IsActive bit,
+IsEditable bit DEFAULT 1,
 foreign key (idProfile) references [Profile](Id))
 
-insert into [User] values(1,'XPTO','1234','xpto@gmail.com',getdate(),null,0,1)
-insert into [User] values(1,'XYZ','5678','xyz@gmail.com',getdate(),null,1,1)
+insert into [User] values(1,'XPTO','1234','xpto@gmail.com',getdate(),null,0,1,1)
+insert into [User] values(1,'XYZ','5678','xyz@gmail.com',getdate(),null,1,1,1)
 
 create table ProfileOperations(
 IdProfile bigint not null,
@@ -101,7 +103,7 @@ foreign key (IdRule) references [Rule](Id)
 
 insert into UserOperationRules values(1,1,4,1),(1,2,4,1),(1,3,1,1),(1,3,2,1),(1,3,3,1),(1,3,4,1)
 
--- Query Padr„o para Montagem da tela de Perfil para cadastro
+-- Query Padr√£o para Montagem da tela de Perfil para cadastro
 select _operation.Description, _operation.OperationLevel, _operation.[Order], ISNULL(_operation.Id_Principal,_operation.Id) as IdOperacao, 
 [Rule].Description from [Profile] _profile
 join ProfileOperations _profileOp on _profile.Id = _profileOp.IdProfile
@@ -112,7 +114,7 @@ where _profile.Id = 1 and _profile.IsActive = 1 and _operation.IsActive = 1
 group by _operation.Description, _operation.OperationLevel, _operation.[Order], ISNULL(_operation.Id_Principal,_operation.Id),[Rule].Description
 order by _operation.OperationLevel, _operation.[Order], ISNULL(_operation.Id_Principal,_operation.Id),[Rule].Description
 
--- Query Padr„o para Montagem da tela de Perfil para usuario ja cadastrado, com base em suas escolhas da query acima!
+-- Query Padr√£o para Montagem da tela de Perfil para usuario ja cadastrado, com base em suas escolhas da query acima!
 select _operation.Description, _operation.OperationLevel, _operation.[Order], ISNULL(_operation.Id_Principal,_operation.Id) as IdOperacao, 
 STRING_AGG([Rule].RoleTag, ';') AS RoleTags
 from [User] _user
