@@ -1,4 +1,4 @@
-﻿USE [master]
+USE [master]
 GO
 CREATE DATABASE [CONTROLE_ACESSO]
 GO
@@ -125,6 +125,7 @@ CREATE TABLE [dbo].[ControleAcesso_Menu](
 	[DataExclusao] [datetime] NULL,
 	[Exibir] [bit] NOT NULL,
 	[Descricao] [varchar](100) NOT NULL,
+	[DescricaoToolTip] [varchar] (100) NOT NULL,
 	[Icone] [varchar](50) NULL,
 	[Link] [varchar](200) NULL,
 	[Ordem] [int] NOT NULL,
@@ -176,6 +177,7 @@ CREATE TABLE [dbo].[ControleAcesso_Usuario](
 	[Cnpj] [varchar](14) NULL,
 	[CodigoCadastrarSenha] [varchar](300) NULL,
 	[AceitePoliticasDeUsoWeb] [bit] NOT NULL,
+	[Editavel] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -195,6 +197,7 @@ CREATE TABLE [dbo].[ControleAcesso_UsuarioPerfil](
 	[DataCadastro] [datetime] NOT NULL,
 	[DataAlteracao] [datetime] NULL,
 	[DataExclusao] [datetime] NULL,
+	[Editavel] [bit] NOT NULL,
 	[IdPerfil] [int] NOT NULL,
 	[IdUsuario] [int] NOT NULL,
 PRIMARY KEY CLUSTERED 
