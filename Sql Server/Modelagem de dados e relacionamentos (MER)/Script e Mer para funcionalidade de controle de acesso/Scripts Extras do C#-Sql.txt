@@ -1,0 +1,293 @@
+public Usuario Login(Usuario request)
+{
+    var response = new Usuario();
+    string sql = $@"
+                    SELECT Usuario.Id 
+                    ,Usuario.Nome
+                    ,ISNULL(UsuarioPerfil.IdPerfil,0) AS IdPerfil
+                    ,Usuario.Email
+                    ,FuncionalidadeAcao.Id
+                    ,FuncionalidadeAcao.IdFuncionalidade
+                    ,Funcionalidade.Id
+                    ,Funcionalidade.Descricao
+                    ,Acao.Id
+                    ,Acao.Descricao
+                    ,Usuario.AceitePoliticasDeUsoWeb
+                    ,ISNULL(UsuarioInstituicaoAssociada.IdInstituicaoAssociada,0) AS IdInstituicaoAssociada
+                    ,InstituicaoAssociada.Id
+                    ,ISNULL(InstituicaoAssociada.Descricao, '') AS Descricao
+                    FROM ControleAcesso_Usuario Usuario
+                    LEFT JOIN ControleAcesso_UsuarioInstituicaoAssociada UsuarioInstituicaoAssociada ON Usuario.Id = UsuarioInstituicaoAssociada.IdUsuario
+                    LEFT JOIN ControleAcesso_InstituicaoAssociada InstituicaoAssociada ON UsuarioInstituicaoAssociada.IdInstituicaoAssociada = InstituicaoAssociada.Id
+                    LEFT JOIN ControleAcesso_UsuarioPerfil UsuarioPerfil ON UsuarioPerfil.IdUsuario = Usuario.Id
+                    LEFT JOIN ControleAcesso_FuncionalidadeAcaoPerfil FuncionalidadeAcaoPerfil ON FuncionalidadeAcaoPerfil.IdPerfil = UsuarioPerfil.IdPerfil
+                    LEFT JOIN ControleAcesso_FuncionalidadeAcao FuncionalidadeAcao ON FuncionalidadeAcao.Id = FuncionalidadeAcaoPerfil.IdFuncionalidadeAcao
+                    LEFT JOIN ControleAcesso_Funcionalidade Funcionalidade ON Funcionalidade.Id = FuncionalidadeAcao.IdFuncionalidade
+                    LEFT JOIN ControleAcesso_Acao Acao ON Acao.Id = FuncionalidadeAcao.IdAcao
+                    WHERE Usuario.Email = @Email and Usuario.Senha = @Senha AND Usuario.DataExclusao IS NULL
+                    ";
+
+    var usuarioDictionary = new Dictionary<int, Usuario>();
+    var funcionalidadeAcaoDictionary = new Dictionary<int, FuncionalidadeAcao>();
+
+    DynamicParameters parametros = new DynamicParameters();
+    parametros.Add("@Email", request.Email);
+    parametros.Add("@Senha", request.Senha);
+
+    response = (_unitOfWork.Connection.Query<Usuario, FuncionalidadeAcao, Funcionalidade, Acao, UsuarioInstituicaoAssociada, InstituicaoAssociada, Usuario>
+        (sql, (usuario, funcionalidadeAcao, funcionalidade, acao, usuarioInstituicaoAssociada, instituicaoAssociada) =>
+        {
+            if (!usuarioDictionary.TryGetValue(usuario.Id, out Usuario usuarioEntry))
+            {
+                usuarioEntry = usuario;
+                usuarioEntry.NomeInstituicaoAssociada = instituicaoAssociada.Descricao;
+                usuarioEntry.FuncionalidadesAcoes = new List<FuncionalidadeAcao>();
+                usuarioDictionary.Add(usuario.Id, usuario);
+            }
+
+            FuncionalidadeAcao funcionalidadeAcaoEntry = new FuncionalidadeAcao();
+
+            funcionalidadeAcaoEntry.Funcionalidade = funcionalidade;
+            funcionalidadeAcaoEntry.Acao = acao;
+            usuarioEntry.FuncionalidadesAcoes.Add(funcionalidadeAcaoEntry);
+
+            return usuarioEntry;
+        },
+        parametros,
+        splitOn: "Id,Id,Id,Id,IdInstituicaoAssociada,Id")).Distinct().ToList().FirstOrDefault();
+    return response ?? new Usuario();
+
+}
+
+-----------------------------------------------
+
+public LoginPerfil ObterPerfil(Usuario request)
+{
+    var response = new LoginPerfil();
+    string sql = $@" SELECT UP.IdPerfil Id
+                            , M.Id
+                            , M.IdMenuPai
+                            , M.Icone
+                            , M.Link
+                            , M.Descricao 
+                            , FA.Id
+                            , FA.IdAcao
+                            , FA.IdFuncionalidade
+                            , F.Id
+                            , F.IdMenu
+                            , F.Descricao
+                            , F.DescricaoSimplificada
+                            , A.Id
+                            , A.Descricao
+							, CASE WHEN M.IdMenuPai IS NULL THEN F.IdMenu  ELSE M.IdMenuPai END [order]
+                        FROM ControleAcesso_UsuarioPerfil UP
+                            LEFT JOIN ControleAcesso_FuncionalidadeAcaoPerfil FAP ON FAP.IdPerfil = UP.IdPerfil
+                            LEFT JOIN ControleAcesso_FuncionalidadeAcao FA ON FA.Id = FAP.IdFuncionalidadeAcao
+                            LEFT JOIN ControleAcesso_Funcionalidade F ON F.Id = FA.IdFuncionalidade
+                            LEFT JOIN ControleAcesso_Acao A ON A.Id = FA.IdAcao
+                            LEFT JOIN ( SELECT * FROM(
+		                            SELECT F.id idFuncionalidade, FM.Id, FM.IdMenuPai, Fm.Icone, FM.descricao, FM.link FROM
+			                            (
+				                            SELECT id , IdMenuPai, Icone, descricao,link FROM ControleAcesso_Menu Where IdMenuPai IS NULL
+				                            UNION
+				                            SELECT id , IdMenuPai, Icone, descricao, link FROM ControleAcesso_Menu Where IdMenuPai IS NOT NULL
+			                            ) AS  FM
+		                            LEFT JOIN ControleAcesso_Funcionalidade F On F.IdMenu = FM.id) AS M )
+	                              M ON M.id = F.IdMenu
+                        WHERE UP.IdUsuario = @Id AND UP.DataExclusao IS NULL
+						
+                        UNION ALL
+
+                        SELECT 
+                              up.IdPerfil
+                            , Menu.Id
+                            , Menu.IdMenuPai
+                            , Menu.Icone
+                            , Menu.Link
+                            , Menu.Descricao 
+                            , null Id
+                            , null IdAcao
+                            , null IdFuncionalidade
+                            , FF.Id
+                            , FF.IdMenu
+                            , FF.Descricao
+                            , FF.DescricaoSimplificada
+                            , null Id
+                            , null Descricao
+							, CASE WHEN Menu.IdMenuPai IS NULL THEN FF.IdMenu  ELSE Menu.IdMenuPai END [order]
+                        FROM ControleAcesso_FUNCIONALIDADE  FF 
+	                            RIGHT JOIN (
+	                            SELECT * FROM(
+		                            SELECT F.id idFuncionalidade, FM.Id, FM.IdMenuPai, FM.Icone, FM.descricao, FM.link FROM
+			                            (
+				                            SELECT id , IdMenuPai, descricao, icone, link FROM ControleAcesso_Menu --WHERE IdMenuPai IS NOT NULL
+			                            ) AS  FM
+		                            LEFT JOIN ControleAcesso_FUNCIONALIDADE F On F.IdMenu = FM.id
+									
+	                            ) AS M
+	                            ) Menu ON FF.id = Menu.idFuncionalidade 
+                                CROSS APPLY (SELECT up.idPerfil,up.IdUsuario FROM ControleAcesso_usuarioPerfil up WHERE up.IdUsuario = @id) up 
+                        
+
+		   ORDER BY 2,[order]
+                        ";
+
+    var loginPerfilDictionary = new Dictionary<int, LoginPerfil>();
+    var menuDictionary = new Dictionary<int, Menu>();
+    var menuPaiDictionary = new Dictionary<int, Menu>();
+    var funcionalidadeDictionary = new Dictionary<int, Funcionalidade>();
+    var funcionalidadeAcaoDictionary = new Dictionary<int, FuncionalidadeAcao>();
+    Menu menuPaiEntry = null;
+    response = (_unitOfWork.Connection.Query<LoginPerfil, Menu, FuncionalidadeAcao, Funcionalidade, Acao, LoginPerfil>
+        (sql, (loginPerfil, menu, funcionalidadeAcao, funcionalidade, acao) =>
+        {
+            if (!loginPerfilDictionary.TryGetValue(loginPerfil.Id, out LoginPerfil loginPerfilEntry))
+            {
+                loginPerfilEntry = loginPerfil;
+                loginPerfilEntry.Menus = new List<Menu>();
+                loginPerfilEntry.Funcionalidades = new List<Funcionalidade>();
+                loginPerfilDictionary.Add(loginPerfil.Id, loginPerfil);
+            }
+
+
+            if (menu != null && menu.IdMenuPai == null && !menuPaiDictionary.TryGetValue(menu.Id, out menuPaiEntry))
+            {
+                menuPaiEntry = menu;
+                menuPaiEntry.Funcionalidades = new List<Funcionalidade>();
+                menuPaiEntry.Menus = new List<Menu>();
+                menuPaiDictionary.Add(menuPaiEntry.Id, menu);
+            }
+
+            Menu menuEntry = null;
+            if (menu != null && menu.IdMenuPai.HasValue && !menuDictionary.TryGetValue(menu.Id, out menuEntry))
+            {
+                menuEntry = menu;
+                menuEntry.Funcionalidades = new List<Funcionalidade>();
+                menuEntry.Menus = new List<Menu>();
+                menuDictionary.Add(menuEntry.Id, menu);
+            }
+
+
+
+            FuncionalidadeAcao funcionalidadeAcaoEntry = null;
+
+            if (funcionalidadeAcao != null && !funcionalidadeAcaoDictionary.TryGetValue(funcionalidadeAcao.Id, out funcionalidadeAcaoEntry))
+            {
+                funcionalidadeAcaoEntry = funcionalidadeAcao;
+                funcionalidadeAcaoDictionary.Add(funcionalidadeAcaoEntry.Id, funcionalidadeAcao);
+            }
+
+            if (funcionalidade != null && funcionalidadeAcaoEntry != null)
+            {
+                funcionalidadeAcaoEntry.Funcionalidade = funcionalidade;
+            }
+
+            if (acao != null && funcionalidadeAcaoEntry != null)
+            {
+                funcionalidadeAcaoEntry.Acao = acao;
+            }
+
+            Funcionalidade funcionalidadeEntry = null;
+
+            if (funcionalidade != null && !funcionalidadeDictionary.TryGetValue(funcionalidade.Id, out funcionalidadeEntry))
+            {
+                funcionalidadeEntry = funcionalidade;
+                funcionalidadeEntry.Acoes = new List<Acao>();
+                funcionalidadeDictionary.Add(funcionalidade.Id, funcionalidade);
+            }
+
+            if (funcionalidadeAcaoEntry != null && funcionalidadeEntry.Id == funcionalidadeAcaoEntry.IdFuncionalidade)
+            {
+                if (acao != null && acao.Id == funcionalidadeAcaoEntry.IdAcao)
+                {
+                    acao.IdFuncionalidadeAcao = funcionalidadeAcaoEntry.Id;
+                    funcionalidadeEntry.Acoes.Add(acao);
+                }
+
+            }
+
+            if (menuEntry != null && funcionalidadeEntry != null && funcionalidadeEntry.IdMenu == menuEntry.Id && !menuEntry.Funcionalidades.Any(x => x.Id == funcionalidade.Id))
+            {
+
+                menuEntry.Funcionalidades.Add(funcionalidadeEntry);
+            }
+
+            if (menuPaiEntry != null && !loginPerfilEntry.Menus.Any(x => x.Id == menuPaiEntry.Id))
+            {
+                loginPerfilEntry.Menus.Add(menuPaiEntry);
+            }
+
+            var menuPaiSearch = loginPerfilEntry.Menus.SingleOrDefault(x => x.Id == menu.IdMenuPai);
+            if (menuPaiSearch != null)
+            {
+
+                if (funcionalidadeEntry != null && funcionalidadeEntry.IdMenu == menuPaiEntry.Id && !menuPaiSearch.Funcionalidades.Any(x => x.Id == funcionalidade.Id))
+                {
+                    menuPaiSearch.Funcionalidades.Add(funcionalidadeEntry);
+                }
+
+                if (menuEntry != null && !menuPaiSearch.Menus.Any(x => x.Id == menuEntry.Id))
+                {
+                    menuPaiSearch.Menus.Add(menuEntry);
+                }
+            }
+
+
+            if (funcionalidadeEntry != null && funcionalidadeEntry.IdMenu == null && !loginPerfilEntry.Funcionalidades.Any(x => x.Id == funcionalidadeEntry.Id))
+            {
+                loginPerfilEntry.Funcionalidades.Add(funcionalidadeEntry);
+            }
+
+            return loginPerfilEntry;
+        },
+        request)).Distinct().ToList().FirstOrDefault();
+
+
+    #region Logica para gerar os Menu de Moderação e Minhas Postagens
+
+    IEnumerable<int> funcionalidades = new List<int> { (int)EnumFuncionalidade.Forum_Comunidade_Associado, (int)EnumFuncionalidade.Forum_Comissoes_Tecnicas, (int)EnumFuncionalidade.Forum_Grupo_Trabalho };
+    ICollection<bool> temMenuModeracao = Enumerable.Empty<bool>().AsList();
+    ICollection<bool> temMenuMinhasPostagens = Enumerable.Empty<bool>().AsList();
+    List<Menu> novosSubMenu = new List<Menu>();
+    Menu subMenuMinhasPostagens = null;
+    Menu subMenuModeracao = null;
+    int indexLocalizado = 0;
+    int index = 0;
+
+    foreach (var menus in response.Menus)
+    {
+        if (menus.Menus.Any(x => x.Funcionalidades.Any(p => funcionalidades.Contains(p.Id))))
+        {
+            indexLocalizado = index;
+
+            foreach (var subMenu in menus.Menus)
+            {
+                temMenuModeracao.Add(subMenu.Funcionalidades.Any(p => p.Acoes.Any(x => x.Id == (int)EnumAcao.Moderador)));
+                temMenuMinhasPostagens.Add(subMenu.Funcionalidades.Any(p => p.Acoes.Any(x => x.Id == (int)EnumAcao.Consultar)));
+
+                if (subMenuMinhasPostagens is null && subMenu.Funcionalidades.Any(p => p.Id == (int)EnumFuncionalidade.MinhasPostagens))
+                    subMenuMinhasPostagens = subMenu;
+                else if (subMenuModeracao is null && subMenu.Funcionalidades.Any(p => p.Id == (int)EnumFuncionalidade.Moderacao))
+                    subMenuModeracao = subMenu;
+                else
+                    novosSubMenu.Add(subMenu);
+            }
+        }
+
+        index++;
+    }
+
+    response.Menus[indexLocalizado].Menus.Clear();
+
+    if (temMenuMinhasPostagens.Where(x => x == true).Count() > 0)
+        novosSubMenu.Insert(novosSubMenu.Count, subMenuMinhasPostagens);
+
+    if (temMenuModeracao.Where(x => x == true).Count() > 0)  
+        novosSubMenu.Insert(novosSubMenu.Count, subMenuModeracao);
+
+    response.Menus[indexLocalizado].Menus.AddRange(novosSubMenu);
+
+    #endregion
+
+    return response;
+}

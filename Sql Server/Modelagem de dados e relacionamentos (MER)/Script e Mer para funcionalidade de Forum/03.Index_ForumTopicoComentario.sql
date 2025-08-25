@@ -1,0 +1,3 @@
+﻿CREATE NONCLUSTERED INDEX IX_ForumTopicoComentario_IdForumTopico ON ForumTopicoComentario(IdForumTopico);
+CREATE INDEX IX_ForumTopicoComentario_Ativos ON ForumTopicoComentario(DataExclusao) WHERE DataExclusao IS NULL;
+CREATE INDEX IX_ForumTopicoComentario_IdForumTopicoComentario_DataCadastro ON ForumTopicoComentario(IdForumTopico, DataCadastro DESC);

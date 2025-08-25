@@ -1,0 +1,1 @@
+﻿CREATE INDEX IX_Forum_Ativos ON Forum(DataExclusao) WHERE DataExclusao IS NULL;
