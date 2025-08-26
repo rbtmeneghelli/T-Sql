@@ -1,0 +1,48 @@
+ public async Task<ForumTopico> BuscarForumTopicoPorId(int id)
+ {
+     string sql = @"SELECT
+                    f.Id, f.Titulo, f.NomeUsuarioCadastro, f.DataCadastro, f.Descricao,
+                    c.Id, c.NomeUsuarioCadastro, c.DataCadastro, c.NomeInstituicaoAssociadaCadastro, c.Descricao,
+                    r.Id, r.NomeUsuarioCadastro, r.DataCadastro, r.NomeInstituicaoAssociadaCadastro, r.Descricao
+                    FROM ForumTopico f
+                    LEFT JOIN ForumTopicoComentario c ON f.Id = c.IdForumTopico
+                    LEFT JOIN ForumTopicoResposta r ON c.Id = r.IdForumTopicoComentario
+                    WHERE f.Id = @idForumTopico";
+
+     var parametros = new DynamicParameters();
+     parametros.Add("@idForumTopico", id);
+
+     var forumTopicoDictionary = new Dictionary<int, ForumTopico>();
+     var comentarioDictionary = new Dictionary<int, ForumTopicoComentario>();
+
+     var result = await _unitOfWork.Connection.QueryAsync<ForumTopico, ForumTopicoComentario, ForumTopicoResposta, ForumTopico>(
+     sql, (forumTopico, forumComentario, forumResposta) =>
+     {
+         if (!forumTopicoDictionary.TryGetValue(forumTopico.Id, out var forumEntry))
+         {
+             forumEntry = forumTopico;
+             forumEntry.ForumTopicoComentarios = new List<ForumTopicoComentario>();
+             forumTopicoDictionary.Add(forumEntry.Id, forumEntry);
+         }
+
+         if (forumComentario != null && forumComentario.Id != 0)
+         {
+             if (!comentarioDictionary.TryGetValue(forumComentario.Id, out var comentarioEntry))
+             {
+                 comentarioEntry = forumComentario;
+                 comentarioEntry.ForumTopicoRespostas = new List<ForumTopicoResposta>();
+                 comentarioDictionary.Add(comentarioEntry.Id, comentarioEntry);
+                 forumEntry.ForumTopicoComentarios.Add(comentarioEntry);
+             }
+
+             if (forumResposta != null && forumResposta.Id != 0)
+             {
+                 comentarioEntry.ForumTopicoRespostas.Add(forumResposta);
+             }
+         }
+
+         return forumEntry;
+     }, parametros, splitOn: "Id,Id");
+
+     return result.Distinct().FirstOrDefault();
+ }
