@@ -1,0 +1,198 @@
+public LoginPerfil ObterPerfil(Usuario usuario)
+    {
+        var response = new LoginPerfil();
+        var parametros = new DynamicParameters();
+        parametros.Add("@IdUsuario", usuario.Id);
+
+        string sqlMenu = $@"select DISTINCT
+                            M.Id
+                            , M.IdMenuPai
+                            , M.Icone
+                            , M.Link
+                            , M.Descricao
+                            , M.Ordem
+                            from
+                            ControleAcesso_Menu M
+                            JOIN (
+                            Select distinct M.IdMenuPai
+                            from ControleAcesso_Funcionalidade F
+                            JOIN ControleAcesso_Menu M ON F.IdMenu = M.Id AND F.DataExclusao IS NULL
+                            JOIN ControleAcesso_FuncionalidadeAcao FA ON F.Id = FA.IdFuncionalidade AND FA.DataExclusao IS NULL
+                            JOIN ControleAcesso_FuncionalidadeAcaoPerfil FAP ON FA.Id = FAP.IdFuncionalidadeAcao AND FAP.DataExclusao IS NULL
+                            JOIN ControleAcesso_UsuarioPerfil US ON FAP.IdPerfil = US.IdPerfil AND US.DataExclusao IS NULL
+                            where M.IdMenuPai IS NOT NULL AND US.IdUsuario = @IdUsuario AND F.FCM_MostrarBackOffice = 1  AND M.DataExclusao IS NULL) F
+                            ON M.Id = F.IdMenuPai";
+
+        var result = _unitOfWork.Connection.Query<Menu>(sqlMenu, parametros);
+
+        response.Id = usuario.Id;
+        response.Menus = result.ToList();
+
+
+        string sqlSubMenu = $@"SELECT DISTINCT
+                                   M.Id,
+                                   M.IdMenuPai,
+                                   M.Icone,
+                                   M.Link,
+                                   M.Descricao,
+                                   M.Ordem,
+                                   F.Id,
+                                   F.Descricao,
+                                   A.Id,
+                                   A.Descricao
+                                   FROM ControleAcesso_Menu M
+                                   LEFT JOIN ControleAcesso_Funcionalidade F
+                                     ON M.Id = F.IdMenu AND F.DataExclusao IS NULL
+                                   LEFT JOIN ControleAcesso_FuncionalidadeAcao FA
+                                     ON F.Id = FA.IdFuncionalidade AND FA.DataExclusao IS NULL
+                                   LEFT JOIN ControleAcesso_FuncionalidadeAcaoPerfil FAP
+                                     ON FA.Id = FAP.IdFuncionalidadeAcao AND FAP.DataExclusao IS NULL
+                                   LEFT JOIN ControleAcesso_Acao A
+                                   ON FA.IdAcao = A.Id AND A.DataExclusao IS NULL
+                                   LEFT JOIN ControleAcesso_UsuarioPerfil UP
+                                   ON FAP.IdPerfil = UP.IdPerfil AND UP.DataExclusao IS NULL
+                                   WHERE
+                                     UP.IdUsuario = @IdUsuario
+                                     AND F.FCM_MostrarBackOffice = 1
+                                     AND IdMenuPai IS NOT NULL
+                                     AND IdMenuPai IN(select DISTINCT
+                                                      M.Id
+                                                      from
+                                                      ControleAcesso_Menu M
+                                                      JOIN (
+                                                      Select distinct M.IdMenuPai
+                                                      from ControleAcesso_Funcionalidade F
+                                                      JOIN ControleAcesso_Menu M ON F.IdMenu = M.Id AND F.DataExclusao IS NULL
+                                                      JOIN ControleAcesso_FuncionalidadeAcao FA ON F.Id = FA.IdFuncionalidade AND FA.DataExclusao IS NULL
+                                                      JOIN ControleAcesso_FuncionalidadeAcaoPerfil FAP ON FA.Id = FAP.IdFuncionalidadeAcao AND FAP.DataExclusao IS NULL
+                                                      JOIN ControleAcesso_UsuarioPerfil US ON FAP.IdPerfil = US.IdPerfil AND US.DataExclusao IS NULL
+                                                      where M.IdMenuPai IS NOT NULL and US.IdUsuario = @IdUsuario AND M.DataExclusao IS NULL) F
+                                                      ON M.Id = F.IdMenuPai)
+                                   Order by M.IdMenuPai, M.Ordem ASC";
+
+        var menuDictionary = new Dictionary<int, Menu>();
+
+        var subMenus = _unitOfWork.Connection.Query<Menu, Funcionalidade, Acao, Menu>(
+            sqlSubMenu,
+            (menu, funcionalidade, acao) =>
+            {
+                if (!menuDictionary.TryGetValue(menu.Id, out var menuEntry))
+                {
+                    menuEntry = menu;
+                    menuEntry.Funcionalidades = new List<Funcionalidade>();
+                    menuDictionary.Add(menu.Id, menuEntry);
+                }
+
+                if (funcionalidade != null && !menuEntry.Funcionalidades.Any(f => f.Id == funcionalidade.Id))
+                {
+                    funcionalidade.Acoes = new List<Acao>();
+                    menuEntry.Funcionalidades.Add(funcionalidade);
+                }
+
+                if (acao != null)
+                {
+                    var func = menuEntry.Funcionalidades.First(f => f.Id == funcionalidade.Id);
+                    func.Acoes.Add(acao);
+                }
+
+                return menuEntry;
+            },
+            parametros,
+            splitOn: "Id,Id"
+        )
+        .Distinct()
+        .ToList();
+
+        IEnumerable<int> funcionalidades = new List<int> { (int)EnumFuncionalidade.Forum_Comunidade_Associado, (int)EnumFuncionalidade.Forum_Comissoes_Tecnicas, (int)EnumFuncionalidade.Forum_Grupo_Trabalho };
+        List<Menu> novosSubMenu = new List<Menu>();
+        Menu subMenuMinhasPostagens = null;
+        Menu subMenuModeracao = null;
+        int indexLocalizado = 0;
+        int index = 0;
+
+        foreach (var menus in response.Menus)
+        {
+            menus.Menus = subMenus.Where(x => x.IdMenuPai == menus.Id).ToList();
+            if (menus.Menus.Any(x => x.Funcionalidades.Any(p => funcionalidades.Contains(p.Id))))
+            {
+                indexLocalizado = index;
+
+                foreach (var subMenu in menus.Menus)
+                {
+                    bool subMenuModeracaoExiste = subMenu.Funcionalidades.Any(p => p.Acoes.Any(x => x.Id == (int)EnumAcao.Moderador));
+                    bool subMenuMinhasPostagensExiste = subMenu.Funcionalidades.Any(p => p.Acoes.Any(x => x.Id == (int)EnumAcao.Consultar));
+
+                    if (novosSubMenu.Exists(x => x.Id == 9998) is false && subMenuMinhasPostagensExiste)
+                    {
+                        List<Acao> acoes = new List<Acao>();
+                        acoes.Add(new Acao
+                        {
+                            Id = (int)EnumAcao.Consultar,
+                            Descricao = EnumAcao.Consultar.GetEnumDescription()
+                        });
+
+                        subMenuMinhasPostagens = new Menu
+                        {
+                            Id = 9998,
+                            IdMenuPai = subMenu.IdMenuPai,
+                            Icone = "",
+                            Link = "/minhas-postagens",
+                            Descricao = "Minhas postagens",
+                            Ordem = 4,
+                            Funcionalidades = new List<Funcionalidade>()
+                        };
+
+                        subMenuMinhasPostagens.Funcionalidades.Add(new Funcionalidade
+                        {
+                            Id = (int)EnumFuncionalidade.MinhasPostagens,
+                            Descricao = EnumFuncionalidade.MinhasPostagens.GetEnumDescription(),
+                            Acoes = acoes
+                        });
+
+                        novosSubMenu.Add(subMenuMinhasPostagens);
+                    }
+                   
+                    if (novosSubMenu.Exists(x => x.Id == 9999) is false && subMenuModeracaoExiste)
+                    {
+                        List<Acao> acoes = new List<Acao>();
+                        acoes.Add(new Acao
+                        {
+                            Id = (int)EnumAcao.Moderador,
+                            Descricao = EnumAcao.Moderador.GetEnumDescription()
+                        });
+
+                        subMenuModeracao = new Menu
+                        {
+                            Id = 9999,
+                            IdMenuPai = subMenu.IdMenuPai,
+                            Icone = "",
+                            Link = "/moderacao",
+                            Descricao = "Moderação",
+                            Ordem = 5,
+                            Funcionalidades = new List<Funcionalidade>()
+                        };
+
+                        subMenuModeracao.Funcionalidades.Add(new Funcionalidade
+                        {
+                            Id = (int)EnumFuncionalidade.Moderacao,
+                            Descricao = EnumFuncionalidade.Moderacao.GetEnumDescription(),
+                            Acoes = acoes
+                        });
+
+                        novosSubMenu.Add(subMenuModeracao);
+                    }
+                }
+            }
+
+            index++;
+        }
+
+        if (novosSubMenu.Exists(x => x.Id == 9998))
+            response.Menus[indexLocalizado].Menus.Add(novosSubMenu.FirstOrDefault(x => x.Id == 9998));
+
+        if (novosSubMenu.Exists(x => x.Id == 9999))
+            response.Menus[indexLocalizado].Menus.Add(novosSubMenu.FirstOrDefault(x => x.Id == 9999));
+
+
+        return response;
+    }
