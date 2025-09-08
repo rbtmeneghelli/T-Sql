@@ -17,7 +17,6 @@ CREATE TABLE [dbo].[ForumTopico](
 	[DataExclusao] [datetime] NULL,
 	[IdForum] [int] NOT NULL,
 	[IdForumTopicoStatus] [int] NOT NULL,
-	[IdForumTopicoAvaliador] [int] NULL,
 	[Titulo] [nvarchar](150) NOT NULL,
 	[Descricao] [nvarchar](1000) NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -55,10 +54,6 @@ GO
 
 ALTER TABLE [dbo].[ForumTopico]  WITH CHECK ADD FOREIGN KEY([IdForumTopicoStatus])
 REFERENCES [dbo].[ForumTopicoStatus] ([Id])
-GO
-
-ALTER TABLE [dbo].[ForumTopico]  WITH CHECK ADD FOREIGN KEY([IdForumTopicoAvaliador])
-REFERENCES [dbo].[ForumTopicoAvaliador] ([Id])
 GO
 
 
