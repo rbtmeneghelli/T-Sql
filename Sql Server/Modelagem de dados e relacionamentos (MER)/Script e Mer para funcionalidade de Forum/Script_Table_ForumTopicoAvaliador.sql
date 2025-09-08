@@ -6,6 +6,7 @@ GO
 
 CREATE TABLE [dbo].[ForumTopicoAvaliador](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[IdForumTopico] [int] NOT NULL UNIQUE,
 	[IdUsuario] [int] NULL,
 	[NomeAvaliador] [varchar](150) NULL,
 	[DataAvaliador] [datetime] NULL,
@@ -18,5 +19,9 @@ GO
 
 ALTER TABLE [dbo].[ForumTopicoAvaliador] ADD  DEFAULT (NULL) FOR [DataAvaliador]
 GO
+
+ALTER TABLE [dbo].[ForumTopicoAvaliador]  WITH CHECK ADD FOREIGN KEY([IdForumTopico])
+REFERENCES [dbo].[ForumTopico] ([Id])
+ON DELETE CASCADE
 
 
