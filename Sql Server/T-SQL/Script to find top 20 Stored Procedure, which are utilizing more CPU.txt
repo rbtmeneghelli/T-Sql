@@ -1,3 +1,9 @@
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script para obter as 20 primeiras procedures mais consumidas
+/*******************************************************************************************************************************/
+
 SELECT TOP 20
     DB_NAME(database_id) AS DatabaseName
     ,OBJECT_SCHEMA_NAME(object_id,database_id) AS SchemaName

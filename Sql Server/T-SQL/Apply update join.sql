@@ -1,3 +1,9 @@
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script de exemplo para aplicar um update com join
+/*******************************************************************************************************************************/
+
 UPDATE t1
 SET t1.CalculatedColumn = t2.[Calculated Column]
 FROM dbo.Table1 AS t1

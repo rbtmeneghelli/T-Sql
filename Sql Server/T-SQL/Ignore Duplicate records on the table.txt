@@ -1,2 +1,7 @@
-ALTER TABLE [TABELA] REBUILD WITH (IGNORE_DUP_KEY = ON) 
--- Esse comando serve para ele adicionar o primeiro registro e os duplicados a ele simplesmente ignorar.
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script para adicionar o primeiro registro e os duplicados a ele simplesmente ignorar.
+/*******************************************************************************************************************************/
+
+ALTER TABLE [TABELA] REBUILD WITH (IGNORE_DUP_KEY = ON)

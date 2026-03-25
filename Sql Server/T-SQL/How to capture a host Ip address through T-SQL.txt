@@ -1,3 +1,9 @@
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script para capturar o endereço de IP do usuario
+/*******************************************************************************************************************************/
+
 DECLARE @ipaddress varchar(max)
 DECLARE @ipaddressLine varchar(max)
 DECLARE @pos int

@@ -1,3 +1,9 @@
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script para reconstruir todos os indexes das tabelas de uma base de dados
+/*******************************************************************************************************************************/
+
 DECLARE @DatabaseName SYSNAME   = DB_NAME()
 DECLARE @TableName VARCHAR(256) 
 --DECLARE @FILLFACTOR INT = 85

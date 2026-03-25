@@ -1,3 +1,8 @@
+/*******************************************************************************************************************************/
+-- Author: Roberto Meneghelli
+-- Dev Date: 04/12/2025
+-- Description: Script para obter o tempo decorrido de uma ultima ação do usuário.
+/*******************************************************************************************************************************/
 CREATE OR ALTER FUNCTION dbo.fnTempoDecorrido (@data DATETIME)
 RETURNS NVARCHAR(50)
 AS
