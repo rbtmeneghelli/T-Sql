@@ -1,0 +1,16 @@
+## Tarefa
+
+- Adicione um endpoint DELETE /orders/{id}/cancel em OrderEndpoints.cs.
+- Acione CancelOrderHandler via MediatR
+- Retorne 204 em sucesso, 404 se não encontrado, 409 se status inválido
+- Siga o padrão de GetOrderByIdEndpoint existente
+
+## Restrições
+- Não adicione ou modifique codigo existente, sem revisão e aprovação
+- Não adicione novos pacotes, sem revisão e aprovação
+- Não refatore código existente, sem revisão e aprovação
+
+## Verificação
+- Execute dotnet build
+- Execute dotnet test --filter "Category=Orders"
+- Corrija qualquer falha antes de concluir
