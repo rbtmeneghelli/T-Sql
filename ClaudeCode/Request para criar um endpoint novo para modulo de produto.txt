@@ -1,0 +1,55 @@
+Utilize rigorosamente todas as regras definidas no arquivo CLAUDE.md.
+
+Acrescente ao módulo de Produto um novo endpoint, seguindo CQRS com MediatR.
+
+Endpoint:
+
+POST /api/produtos
+
+Campos:
+
+* Nome
+* Descricao
+* Preco
+* Estoque
+
+Regras:
+
+* Nome obrigatório
+* Preço maior que zero
+* Estoque >= 0
+
+Arquivos esperados:
+
+Application:
+
+* CreateProdutoCommand
+* CreateProdutoCommandHandler
+* CreateProdutoCommandValidator
+* ProdutoDto
+* IProdutoService
+
+Domain:
+
+* Produto
+
+Infrastructure:
+
+* ProdutoRepository
+* ProdutoConfiguration
+
+Api:
+
+* ProdutoEndpoints
+
+Tests:
+
+* CreateProdutoCommandHandlerTests
+
+Antes de gerar código apresente:
+
+* Plano
+* Arquivos
+* Fluxo da requisição
+
+Depois gere cada arquivo completo.

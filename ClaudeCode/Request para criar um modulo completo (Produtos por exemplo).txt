@@ -1,0 +1,49 @@
+Utilize rigorosamente todas as regras definidas no arquivo CLAUDE.md.
+
+Implemente o módulo Produto, seguindo CQRS com MediatR.
+
+Campos:
+
+* Long Id
+* string Nome
+* string Descricao
+* decimal Preco
+* int Estoque
+* DateTime DataCadastro
+
+Regras de negócio:
+
+* Nome obrigatório
+* Nome máximo 200 caracteres
+* Preço maior que zero
+* Estoque não pode ser negativo
+
+Endpoints:
+
+POST /api/produtos
+
+GET /api/produtos
+
+GET /api/produtos/{id}
+
+PUT /api/produtos/{id}
+
+DELETE /api/produtos/{id}
+
+Fluxo obrigatório:
+
+→ Endpoint
+→ Command/Query
+→ Handler
+→ Service
+→ Repository
+
+Forneça inicialmente:
+
+1. Plano de implementação
+2. Arquivos a serem criados
+3. Dependências necessárias
+
+Somente após o plano gerar o código.
+
+Não omita nenhum arquivo.

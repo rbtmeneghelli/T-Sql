@@ -2,42 +2,104 @@
 
 ## Arquitetura
 
-- Este projeto segue Clean Architecture com separação em camadas: Domain, Application, Infrastructure e API
-- Nunca misture lógica de negócio na camada de API
-- Controllers chamam Handlers(Command ou Queries)
-- Handlers chamam Services
-- Services chamam Repositories
-- Services contêm regras de negócio
-- Repositórios são responsáveis pelo acesso a dados
-- Nunca acessar o DbContext diretamente a partir de Controllers, Handlers e Services
-- Sempre usar Injeção de Dependência
-- Respeitar o princípio da responsabilidade única (SRP)
-- A camada `Domain` nunca deve referenciar nenhuma outra.
-- A `API` deve referenciar `Application` e `Infrastructure` para o Setup da DI.
+- Este projeto segue Clean Architecture com separação em camadas: Domain, Application, Infrastructure e API.
+- Nunca misture lógica de negócio na camada de API.
+- Endpoints chamam Handlers (Commands ou Queries).
+- Handlers chamam Services.
+- Services chamam Repositories.
+- Services contêm regras de negócio.
+- Repositórios são responsáveis pelo acesso a dados.
+- Nunca acessar o DbContext diretamente a partir de Endpoints, Handlers e Services.
+- Sempre utilizar Injeção de Dependência.
+- Respeitar o princípio da responsabilidade única (SRP).
+- A camada Domain nunca deve referenciar nenhuma outra camada.
+- A API deve referenciar Application e Infrastructure para configuração da Injeção de Dependência.
+- Todo Command deve possuir Validator utilizando FluentValidation.
+- Utilizar TypedResults sempre que possível.
+
+---
 
 ## Estrutura da solução
 
-- `Domain`: Entidades, interfaces de repositório e lógica de domínio pura.
-- `Application`: DTOs, Mappers, Commands/Queries (MediatR) e Interfaces de serviço.
-- `Infrastructure`: Implementação de repositórios (Dapper/EF), Redis, acesso a API externas via clientes Http e persistência com o banco de dados, migrations.
-- `API`: Controllers/Endpoints, Injeção de Dependência, Middlewares e Configurações (Startup).
-- `Test`: testes de unidade e integração
+### Domain
+
+- Entidades
+- Interfaces de Repositório
+
+### Application
+
+- Interfaces de Serviço
+- Commands
+- Queries
+- DTOs
+- Validators
+- Result Pattern
+- Mappers manuais entre DTOs e Entidades
+
+### Infrastructure
+- Implementação de repositórios (Entity Framework Core / Dapper)
+- Implementação de Cache Redis
+- Clientes HTTP para integrações externas
+- Persistência SQL Server
+- Migrations
+
+### API
+
+- Endpoints
+- Injeção de Dependência
+- Middlewares
+- Configurações (Startup)
+- Exception Handlers
+
+### Tests
+
+- Testes Unitários
+- Testes de Integração
+
+---
 
 ## Stack
 
 - .NET 10
-- ASP.NET Core (Minimal APIs)
+- ASP.NET Core Minimal APIs
 - C#
 - Entity Framework Core
-- Redis para cache
-- Application Insights para logs e métricas
-- Microsoft SQL Server
+- Dapper
+- Redis
+- Application Insights
+- SQL Server
 
-## Testes
+---
+
+## Pacotes aprovados
 
 - xUnit
 - FluentAssertions
 - Moq
+- MediatR
+- FluentValidation
+- Scalar
+
+### ORM
+
+- Entity Framework Core é o ORM oficial do projeto.
+- Dapper é permitido apenas para consultas complexas de leitura.
+- Não adicionar outros ORMs sem aprovação explícita.
+
+---
+
+## Convenções (PAREI AQUI)
+- Handlers seguem o padrão CQRS com MediatR
+- Utilizar async/await sempre que aplicavel
+- Utilizar injeção de dependência nativa do ASP.NET Core
+- Utilizar Microsoft SQL Server como banco de dados local
+- Utilizar `AsNoTracking()` para consultas somente leitura
+- Evitar consultas N+1
+- Sempre passe CancellationToken em chamadas assíncronas (async/await).
+- Chamadas HTTP externas devem ter timeouts e cancelamento.
+- O cache deve considerar orçamentos de tempo e proteção contra stampede.
+- Mapeamento entre DTO e entidades deve ser feito de forma manual, sem uso de pacotes externos
+- Preferir consultas assíncronas
 
 ## Restrições
 
@@ -57,23 +119,7 @@
 - Nunca use "sync over async" (síncrono sobre assíncrono).
 - Não use `new` para instanciar serviços registrados no contêiner.
 
-## Convenções Aceitas
-- Endpoints mapeados com Minimal API
-- Handlers seguem o padrão CQRS com MediatR
-- Repositórios são interfaces definidas em Application e implementadas em Infrastructure
-- Utilizar async/await sempre que aplicavel
-- Utilizar injeção de dependência nativa do ASP.NET Core
-- Utilizar Microsoft SQL Server como banco de dados local
-- Utilizar `AsNoTracking()` para consultas somente leitura
-- Evitar consultas N+1
-- Sempre passe CancellationToken em chamadas assíncronas (async/await).
-- Chamadas HTTP externas devem ter timeouts e cancelamento.
-- O cache deve considerar orçamentos de tempo e proteção contra stampede.
-- Mapeamento entre DTO e entidades deve ser feito de forma manual, sem uso de pacotes externos
-- Não criar migrations sem revisar o SQL gerado (`dotnet ef migrations script`)
-- Utilizar migrations para alterações de banco de dados
-- Preferir consultas assíncronas
-- Configurações Fluent API devem ficar em classes separadas
+
 
 ## Convenções de Nomenclatura
 - Classes: PascalCase
@@ -93,17 +139,6 @@
 4. Adicione ou atualize testes quando apropriado.
 5. Forneça comandos para verificar as mudanças.
 
-## Pacotes aprovados
-
-- xUnit
-- moq
-- MediatR
-- FluentValidation
-- Scalar
-- Dapper (apenas para queries de leitura complexas)
-- EF Core (apenas para queries simples de leitura e para ações de escrita)
-- Nunca adicione Entity Framework Core sem aprovação explícita
-
 ## Código
 
 - Gerar código seguindo os padrões oficiais da Microsoft
@@ -118,3 +153,71 @@
 - Aplicar migrations:    dotnet ef database update --project src/Infrastructure
 - Nova migration:        dotnet ef migrations add NomeDaMigration --project src/Infrastructure --startup-project src/Api
 - Executar projeto: 	 dotnet run --project src/Api
+
+## Observabilidade
+
+- Todos os Handlers devem registrar logs de início, sucesso e falha.
+- Nunca registrar dados sensíveis.
+- Utilizar Application Insights para correlação de requests.
+
+## Banco de Dados
+
+- Toda tabela deve possuir um campo `Id` como chave primária explícita do tipo int e configurado com Identity.
+- Todas as entidades devem utilizar ter o campo `Id`, `UserCreatedId`,`CreatedDate`,`UserUpdatedId`,`UpdateDate`,`UserDeletedId`,`DeletedDate`,
+- Utilizar índices para colunas de busca frequente.
+- Configurações de Fluent API do Entity Framework devem ficar em classes separadas.
+- Utilizar migrations para alterações de banco de dados
+- Não criar migrations sem revisar o SQL gerado (`dotnet ef migrations script`)
+
+## Tratamento de Erros
+
+- Services não devem lançar exceptions para regras de negócio esperadas.
+- Utilizar Result Pattern para retornar falhas de negócio.
+- Exceptions devem ser reservadas para falhas inesperadas.
+- GlobalExceptionHandler é responsável por erros não tratados.
+
+## Consultas
+
+- Endpoints de listagem devem suportar paginação.
+- Utilizar parâmetros pageNumber e pageSize.
+- pageSize máximo: 100.
+
+## Cache
+
+- Cache apenas para consultas.
+- Nunca utilizar cache para comandos de escrita.
+- Chaves devem seguir o padrão:
+  {entidade}:{identificador}
+- Invalidar cache após operações de escrita.
+
+## DTOs
+
+- Nunca expor entidades de domínio diretamente nos endpoints.
+- Endpoints devem receber Request DTOs.
+- Endpoints devem retornar Response DTOs.
+
+## Testes
+
+- Todo Handler deve possuir testes unitários.
+- Todo Service com regra de negócio deve possuir testes unitários.
+- Repositórios não precisam de testes unitários.
+
+## Endpoints
+
+- Todos os endpoints serão mapeados como Minimal API
+- Nenhuma validação de negócio deve ficar no Endpoint.
+- Todos os endpoints devem possuir tags para documentação Scalar.
+- Todos os endpoints devem possuir versionamento (/api/v1).
+- Todos os endpoints devem declarar explicitamente Produces e ProducesProblem.
+
+## Result Pattern
+
+- Utilizar uma implementação própria de Result e Result<T>.
+- Result deve conter:
+  - IsSuccess
+  - Error
+- Result<T> deve conter:
+  - IsSuccess
+  - Value
+  - Error
+- Não utilizar bibliotecas externas para Result Pattern.

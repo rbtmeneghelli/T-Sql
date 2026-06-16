@@ -1,0 +1,42 @@
+Utilize rigorosamente todas as regras definidas no arquivo CLAUDE.md.
+
+Crie uma solução .NET 10 seguindo Clean Architecture com os projetos:
+
+* Api
+* Application
+* Domain
+* Infrastructure
+* Tests
+
+Requisitos:
+
+* ASP.NET Core Minimal API
+* MediatR
+* FluentValidation
+* Entity Framework Core
+* SQL Server
+* Redis
+* Application Insights
+* Nullable Reference Types habilitado
+
+Neste momento não implemente nenhuma funcionalidade de negócio.
+
+Gere apenas:
+
+* Estrutura das pastas
+* Arquivos de configuração
+* Dependency Injection
+* Configuração do MediatR
+* Configuração do EF Core
+* Configuração do Redis
+* Configuração do Application Insights
+* Program.cs
+* appsettings.json
+
+Antes de gerar código apresente:
+
+1. Plano de implementação
+2. Estrutura de diretórios
+3. Lista completa dos arquivos que serão criados
+
+Após aprovação gere os arquivos.
