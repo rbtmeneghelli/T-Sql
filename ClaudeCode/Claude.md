@@ -1,18 +1,19 @@
-# CLAUDE.md – Instruções do Projeto (.NET)
+# CLAUDE.md
 
 ## Arquitetura
 
-Este projeto segue Clean Architecture com separação em camadas: Domain, Application, Infrastructure e API.
-Nunca misture lógica de negócio na camada de API.
-
-## Tech stack
-
-- .NET 10 / C#
-- ASP.NET Core (Minimal APIs)
-- EF Core
-- Redis para cache
-- Application Insights para logs e métricas
-- Entity Framework Core com Microsoft SQL Server
+- Este projeto segue Clean Architecture com separação em camadas: Domain, Application, Infrastructure e API
+- Nunca misture lógica de negócio na camada de API
+- Controllers chamam Handlers(Command ou Queries)
+- Handlers chamam Services
+- Services chamam Repositories
+- Services contêm regras de negócio
+- Repositórios são responsáveis pelo acesso a dados
+- Nunca acessar o DbContext diretamente a partir de Controllers, Handlers e Services
+- Sempre usar Injeção de Dependência
+- Respeitar o princípio da responsabilidade única (SRP)
+- A camada `Domain` nunca deve referenciar nenhuma outra.
+- A `API` deve referenciar `Application` e `Infrastructure` para o Setup da DI.
 
 ## Estrutura da solução
 
@@ -22,42 +23,67 @@ Nunca misture lógica de negócio na camada de API.
 - `API`: Controllers/Endpoints, Injeção de Dependência, Middlewares e Configurações (Startup).
 - `Test`: testes de unidade e integração
 
-## Regras de Dependência
-- A camada `Domain` nunca deve referenciar nenhuma outra.
-- A `API` deve referenciar `Application` e `Infrastructure` para o Setup da DI.
+## Stack
 
-## Convenções
+- .NET 10
+- ASP.NET Core (Minimal APIs)
+- C#
+- Entity Framework Core
+- Redis para cache
+- Application Insights para logs e métricas
+- Microsoft SQL Server
 
+## Testes
+
+- xUnit
+- FluentAssertions
+- Moq
+
+## Restrições
+
+- Nunca usar `dynamic` sem justificativa explícita
+- Habilitar Nullable Reference Types
+- Evitar lógica de negócio em Controllers e Handlers
+- Evitar métodos excessivamente longos (preferir métodos pequenos e focados)
+- Evitar duplicação de código
+- Priorizar código legível sobre soluções excessivamente complexas
+- Nunca introduzir novas camadas arquiteturais
+- Nunca adicionar frameworks que não são mais utilizado
+- Nunca use Task.Run em manipuladores de requisição.
+- Nunca utilizar repositório genérico
+- Nunca modifique arquivos fora do escopo da tarefa
+- Nunca refatore código funcional sem instrução explícita
+- Nunca usar .Result ou .Wait() — causa deadlock em ASP.NET Core
+- Nunca use "sync over async" (síncrono sobre assíncrono).
+- Não use `new` para instanciar serviços registrados no contêiner.
+
+## Convenções Aceitas
 - Endpoints mapeados com Minimal API
 - Handlers seguem o padrão CQRS com MediatR
 - Repositórios são interfaces definidas em Application e implementadas em Infrastructure
 - Utilizar async/await sempre que aplicavel
 - Utilizar injeção de dependência nativa do ASP.NET Core
-- Evitar duplicação de código
-- Seguir princípios SOLID quando aplicável
-- Utilizar EF Core como mecanismo de persistência
 - Utilizar Microsoft SQL Server como banco de dados local
-- Priorizar legibilidade e manutenção do código
-- Usar AsNoTracking para leitura
-- Preferir projeção com Select
-- Evitar N+1
-- Não usar repository genérico
+- Utilizar `AsNoTracking()` para consultas somente leitura
+- Evitar consultas N+1
 - Sempre passe CancellationToken em chamadas assíncronas (async/await).
-- Jamais use "sync over async" (síncrono sobre assíncrono).
-- Não Adicionar frameworks que não são mais utilizado.
-- Não introduzir novas camadas arquiteturais.
-- Não use `new` para instanciar serviços registrados no contêiner.
-- Não modifique arquivos fora do escopo da tarefa.
-- Não refatore código funcional sem instrução explícita.
-- Não use Task.Run em manipuladores de requisição.
 - Chamadas HTTP externas devem ter timeouts e cancelamento.
 - O cache deve considerar orçamentos de tempo e proteção contra stampede.
-- Nunca usar .Result ou .Wait() — causa deadlock em ASP.NET Core
 - Mapeamento entre DTO e entidades deve ser feito de forma manual, sem uso de pacotes externos
-- Não colocar lógica de negócio nos controllers e Handlers de commands/queries
 - Não criar migrations sem revisar o SQL gerado (`dotnet ef migrations script`)
-- Aplicas Testes com xUnit + Moq
-- Aplicar migrations com Entity Framework Core
+- Utilizar migrations para alterações de banco de dados
+- Preferir consultas assíncronas
+- Configurações Fluent API devem ficar em classes separadas
+
+## Convenções de Nomenclatura
+- Classes: PascalCase
+- Interfaces: prefixo `I` (`IClientService`)
+- Métodos: PascalCase
+- Propriedades: PascalCase
+- Campos privados: `_camelCase`
+- Variáveis locais e parâmetros: `camelCase`
+- Constantes: PascalCase
+- Arquivos: mesmo nome da classe principal
 
 ## Fluxo de Trabalho (Workflow)
 
@@ -69,6 +95,8 @@ Nunca misture lógica de negócio na camada de API.
 
 ## Pacotes aprovados
 
+- xUnit
+- moq
 - MediatR
 - FluentValidation
 - Scalar
@@ -76,7 +104,15 @@ Nunca misture lógica de negócio na camada de API.
 - EF Core (apenas para queries simples de leitura e para ações de escrita)
 - Nunca adicione Entity Framework Core sem aprovação explícita
 
+## Código
+
+- Gerar código seguindo os padrões oficiais da Microsoft
+- Priorizar simplicidade e manutenibilidade
+- Sempre considerar performance, segurança e testabilidade
+- Explicar decisões arquiteturais quando elas não forem óbvias
+
 ## Comandos
+
 - Rodar testes:          dotnet test
 - Build:                 dotnet build
 - Aplicar migrations:    dotnet ef database update --project src/Infrastructure
