@@ -1,0 +1,12 @@
+Utilize rigorosamente o CLAUDE.md.
+
+Implemente o módulo Produto.
+
+Antes de gerar código:
+
+1. Analise os requisitos.
+2. Apresente o plano.
+3. Liste os arquivos que serão criados.
+4. Explique o fluxo da requisição.
+
+Após aprovação, gere todos os arquivos completos.
