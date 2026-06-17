@@ -1,0 +1,16 @@
+## COMANDOS DO CLAUDECODE
+
+COMANDOS		DESCRIÇÃO
+/login	  -> 	Conecta e autentica a conta do usuário na ferramenta
+/doctor	  ->	Diagnóstico de ambiente (detecção de problemas de dependência e configuração)
+/help	  ->	Exibir lista de comandos disponíveis
+/init	  ->	Inicializa um novo projeto (cria CLAUDE.md, etc.)
+/rewind   -> 	Reverter conversa ou alterações de código
+/context  -> 	Exibir uso do contexto (visualização do consumo de tokens)
+/usage	  -> 	Mostrar o uso do plano e o status do limite de tarifa
+/clear	  -> 	Limpar o histórico de conversa com o ClaudeCode
+/review	  -> 	Solicitar revisão de código (Recomendado fazer isso antes de fazer um PR)
+/model    ->    O /model troca o modelo de linguagem usado na sessão em curso. Três opções estão disponíveis: Haiku, Sonnet e Opus.
+				Haiku é o mais rápido e econômico, indicado para tarefas simples como renomear variáveis, formatar código ou responder perguntas diretas. 
+				Sonnet é o ponto de equilíbrio entre custo e inteligência, adequado para o uso diário na maioria das tarefas. 
+				Opus oferece a máxima capacidade de raciocínio e deve ser reservado para problemas complexos que exigem análise profunda.
