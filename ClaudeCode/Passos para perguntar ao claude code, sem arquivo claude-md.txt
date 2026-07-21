@@ -1,0 +1,25 @@
+O fluxo de trabalho dourado: Pesquisa -> Planejamento -> Implementação
+
+Exemplo da etapa 1:
+Pesquise como nosso sistema de autenticação funciona. Encontre todos os arquivos relevantes e explique o fluxo atual
+
+Exemplo da etapa 2:
+Agora elabore um plano detalhado para a implementação do suporte a OAuth. Fragmente o processo em etapas e identifique potenciais gargalos ou problemas.
+
+Exemplo da etapa 3:
+Implemente a solução OAuth com base no seu plano. Verifique cada etapa à medida que avança e faça o commit quando concluir.
+
+
+// ------------------------------------------- //
+
+Exemplo da etapa 1:
+"Pesquise como lidamos atualmente com cache e conexões Redis"
+Claude descobre infraestrutura existente
+
+Exemplo da etapa 2:
+"Planeje como adicionar rate limiting que se integre à nossa configuração do Redis"
+Claude cria um plano que reutiliza conexões existentes
+
+Exemplo da etapa 3:
+"Implemente o rate limiting seguindo o seu plano"
+Resultado: Implementação limpa que se encaixa na arquitetura

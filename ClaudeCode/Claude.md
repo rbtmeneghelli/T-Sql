@@ -239,6 +239,7 @@
 
 - Revisar SQL gerado antes da aplicação de migrations.
 
+- Nomes de tabelas são no plural
 ---
 
 ## Datas
@@ -365,11 +366,13 @@ dotnet run --project src/Api
 
 ## Geração de Código
 
-- Seguir padrões oficiais da Microsoft.
+- Siga as C# Coding Conventions (Microsoft)
+- Prefira async/await para todas as operações de I/O
 - Priorizar simplicidade e manutenibilidade.
 - Considerar performance, segurança e testabilidade.
 - Explicar decisões arquiteturais não óbvias.
 - Não omitir arquivos necessários para a implementação.
 - Respeitar rigorosamente todas as regras deste documento.
+- Utilize Dependency Injection (DI) nativa para gerenciamento de serviços
 
 ---
